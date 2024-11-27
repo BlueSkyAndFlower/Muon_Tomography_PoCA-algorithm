@@ -1,0 +1,11 @@
+Universe   = vanilla
+Executable = run-scan.sh
+Log        = logs/condor_$(Cluster)_$(Process).log
+Output     = logs/condor_$(Cluster)_$(Process).out
+Error      = logs/condor_$(Cluster)_$(Process).error
+
+# scan Geometry
+
+Arguments = TDLI_Imaging  $(Process) $(Cluster)
+Queue 1
+

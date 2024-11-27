@@ -1,0 +1,2370 @@
+TDLI_Imaging
+0
+32203339
+
+
+*************************************************************
+ musrSim version 1.0.5 for Geant4.10.3, released on 20 Mar 2017
+      WWW:  https://www.psi.ch/lmu/geant4-simulations
+
+**************************************************************
+ Geant4 version Name: geant4-10-07-patch-02 [MT]   (11-June-2021)
+                       Copyright : Geant4 Collaboration
+                      References : NIM A 506 (2003), 250-303
+                                 : IEEE-TNS 53 (2006), 270-278
+                                 : NIM A 835 (2016), 186-225
+                             WWW : http://geant4.org/
+**************************************************************
+
+musrParameters::musrParameters:  steeringFileName="TDLI_Imaging.mac" opened.
+
+musrSim.cc: Set output ROOT file: data/musrSim_0_TDLI_Imaging-32203339-0.root
+
+<<< Geant4 Physics List simulation engine: FTFP_BERT
+
+WARNING: G4EmExtraPhysics.cc: Unknown command in setting GammaNuclear: on
+WARNING: G4EmExtraPhysics.cc: Unknown command in setting ElectroNuclear: on
+WARNING: G4EmExtraPhysics.cc: Unknown command in setting GammaToMuPair: on
+G4EmExtraPhysics.cc: Set gmumuFactor to 1
+G4EmExtraPhysics.cc: Set enFactor to 1
+G4EmExtraPhysics.cc: Set pnFactor to 1
+Visualization Manager instantiating with verbosity "warnings (3)"...
+Visualization Manager initialising...
+Registering graphics systems...
+
+You have successfully registered the following graphics systems.
+Registered graphics systems are:
+  ASCIITree (ATree)
+  DAWNFILE (DAWNFILE)
+  G4HepRep (HepRepXML)
+  G4HepRepFile (HepRepFile)
+  RayTracer (RayTracer)
+  VRML1FILE (VRML1FILE)
+  VRML2FILE (VRML2FILE)
+  gMocrenFile (gMocrenFile)
+  OpenGLImmediateQt (OGLIQt, OGLI)
+  OpenGLStoredQt (OGLSQt, OGL, OGLS)
+  OpenGLImmediateXm (OGLIXm, OGLIQt_FALLBACK)
+  OpenGLStoredXm (OGLSXm, OGLSQt_FALLBACK)
+  OpenGLImmediateX (OGLIX, OGLIQt_FALLBACK, OGLIXm_FALLBACK)
+  OpenGLStoredX (OGLSX, OGLSQt_FALLBACK, OGLSXm_FALLBACK)
+  RayTracerX (RayTracerX)
+
+Registering model factories...
+
+You have successfully registered the following model factories.
+Registered model factories:
+  generic
+  drawByAttribute
+  drawByCharge
+  drawByOriginVolume
+  drawByParticleID
+  drawByEncounteredVolume
+
+Registered models:
+  None
+
+Registered filter factories:
+  attributeFilter
+  chargeFilter
+  originVolumeFilter
+  particleFilter
+  encounteredVolumeFilter
+
+Registered filters:
+  None
+
+You have successfully registered the following user vis actions.
+Run Duration User Vis Actions: none
+End of Event User Vis Actions: none
+End of Run User Vis Actions: none
+
+Some /vis commands (optionally) take a string to specify colour.
+"/vis/list" to see available colours.
+musrPrimaryGeneratorAction:  G4ParticleGun is going to be initialised
+Detector configuration file "TDLI_Imaging.mac" was opened.
+
+
+....oooOO0OOooo........oooOO0OOooo......Configuration file used for this run....oooOO0OOooo........oooOO0OOooo......
+#-----------------------------------------------------------------------
+
+# Macro file for the simulation of muon scattering tomography
+
+# Use Pb block to spell "TDLI" and use 1 GeV, 1e6 mu+ to image it.
+
+# Unless specified otherwises, the default units are mm, ns, MeV, MeV/c.
+
+# Lines starting with star # are comments.
+
+###################################################################################
+
+#############################  G E O M E T R Y  ###################################
+
+#
+
+# WORLD
+
+/musr/command construct box World     3000  3000  3000   G4_AIR   0  0  0  no_logical_volume  norot dead -1
+
+
+
+######Track Detector: Ingoing muon track detector ######
+/musr/command construct box save21   500 500 10   G4_PLASTIC_SC_VINYLTOLUENE  0 0 -1250  log_World norot  musr/ScintSD  21
+
+/musr/command construct box save22   500 500 10   G4_PLASTIC_SC_VINYLTOLUENE  0 0 -250  log_World norot  musr/ScintSD  22
+
+
+
+######Object: 'TDLI' Target ######
+#####  "T"
+/musr/command construct box Target_T1   15  5 25    G4_Pb  -150 20 0  log_World norot  dead  1
+/musr/command construct box Target_T2   5  20 25    G4_Pb  -150 -5 0  log_World norot  dead  1
+
+#####  "D"
+/musr/command construct box Target_D1   5  25 25       G4_Pb  -62.5 0 0  log_World norot  dead  1
+/musr/command construct tubs Target_D2  15 25 25 270 180  G4_Pb  -57.5 0 0  log_World norot  dead  1
+
+#####  "L"
+/musr/command construct box Target_L1   5  25 25    G4_Pb  40 0 0  log_World norot  dead  1
+/musr/command construct box Target_L2   10  5 25    G4_Pb  55 -20 0  log_World norot  dead  1
+
+#####  "I"
+/musr/command construct box Target_I1   15  5 25    G4_Pb  150  20 0  log_World norot  dead  1
+/musr/command construct box Target_I2   5  15 25    G4_Pb  150   0 0  log_World norot  dead  1
+/musr/command construct box Target_I3   15  5 25    G4_Pb  150 -20 0  log_World norot  dead  1
+
+ 
+ 
+######Track Detector: Outgoing muon track detector ######
+/musr/command construct box save23   500 500 10   G4_PLASTIC_SC_VINYLTOLUENE  0 0 250  log_World norot  musr/ScintSD  23
+ 
+/musr/command construct box save24   500 500 10   G4_PLASTIC_SC_VINYLTOLUENE  0 0 1250  log_World norot  musr/ScintSD  24
+ 
+
+
+#============================================================
+
+/musr/command visattributes log_World invisible
+
+#/musr/command visattributes log_source red
+
+#/musr/command visattributes G4_PLASTIC_SC_VINYLTOLUENE lightblue
+
+
+
+#/musr/command globalfield TrackingField 40 10 80  uniform 0. 0. 550. log_World 0 0 0 0 0 0 
+
+
+
+# Set parameters for particle tracking in an EM field
+
+#/musr/command globalfield setparameter SetLargestAcceptableStep 5
+
+#/musr/command globalfield setparameter SetMinimumEpsilonStep 5e-5
+
+#/musr/command globalfield setparameter SetMaximumEpsilonStep 0.001
+
+#/musr/command globalfield setparameter SetDeltaOneStep 0.1
+
+#/musr/command globalfield setparameter SetDeltaIntersection 0.01
+
+#/musr/command globalfield printparameters
+
+
+
+
+
+###################################################################################
+
+#########################  P H Y S I C S      P R O C E S S E S  ##################
+
+###################################################################################
+
+# Geant 4.9.4
+
+/musr/command G4EmExtraPhysics SetProcessState GammaNuclear   on
+
+/musr/command G4EmExtraPhysics SetProcessState ElectroNuclear on
+
+/musr/command G4EmExtraPhysics SetProcessState GammaToMuPair  on
+
+
+
+/musr/command process addDiscreteProcess gamma G4PhotoElectricEffect
+
+/musr/command process addDiscreteProcess gamma G4ComptonScattering
+
+/musr/command process addDiscreteProcess gamma G4GammaConversion
+
+/musr/command process addDiscreteProcess gamma G4RayleighScattering
+
+/musr/command process addDiscreteProcess gamma G4GammaConversionToMuons
+
+/musr/command process addProcess         e-    G4eMultipleScattering    -1  1  1
+
+/musr/command process addProcess         e-    G4eIonisation            -1  2  2
+
+/musr/command process addProcess         e-    G4eBremsstrahlung        -1  3  3
+
+/musr/command process addProcess         e+    G4eMultipleScattering    -1  1  1
+
+/musr/command process addProcess         e+    G4eIonisation            -1  2  2
+
+/musr/command process addProcess         e+    G4eBremsstrahlung        -1  3  3
+
+/musr/command process addProcess         e+    G4eplusAnnihilation       0 -1  4
+
+/musr/command process addProcess         mu-   G4MuMultipleScattering   -1  1  1
+
+/musr/command process addProcess         mu-   G4MuIonisation           -1  2  2
+
+/musr/command process addProcess         mu-   G4MuBremsstrahlung       -1  3  3
+
+/musr/command process addProcess         mu-   G4MuPairProduction       -1  4  4
+
+/musr/command process addProcess         mu+   G4MuMultipleScattering   -1  1  1
+
+/musr/command process addProcess         mu+   G4MuIonisation           -1  2  2
+
+/musr/command process addProcess         mu+   G4MuBremsstrahlung       -1  3  3
+
+/musr/command process addProcess         mu+   G4MuPairProduction       -1  4  4
+
+#
+
+
+############### Kill the e-,e+,gamma < 130 MeV ########################## 
+
+#/musr/command killAllGammas true 
+
+#/musr/command killAllPositrons true 
+
+#/musr/command killAllElectrons true 
+
+
+###################################################################################
+
+##################  S O M E   O T H E R    P A R A M E T E R S   ##################
+
+###################################################################################
+
+# Store all events into the ROOT tree or just the interesting ones ? (true is default)
+
+/musr/command storeOnlyEventsWithHits false
+
+#/musr/command storeOnlyEventsWithHitInDetID 11
+
+# Set the minimum time separation between two subsequent signals in the same detector (in ns)
+
+/musr/command signalSeparationTime 0
+
+#
+
+/musr/run/howOftenToPrintEvent 1000
+
+/musr/run/randomOption 1
+
+###################################################################################
+
+#########################   R O O T     O U T P U T  ##############################
+#/musr/command rootOutput runID off
+
+#/musr/command rootOutput runID off
+
+/musr/command rootOutput eventID off
+
+/musr/command rootOutput weight off
+
+/musr/command rootOutput BFieldAtDecay off
+
+/musr/command rootOutput muIniPosX off
+
+/musr/command rootOutput muIniPosY off
+
+/musr/command rootOutput muIniPosZ off
+
+/musr/command rootOutput muIniMomX off
+
+/musr/command rootOutput muIniMomY off
+
+/musr/command rootOutput muIniMomZ off
+
+/musr/command rootOutput muIniPolX off
+
+/musr/command rootOutput muIniPolY off
+
+/musr/command rootOutput muIniPolZ off
+
+/musr/command rootOutput muIniTime off
+
+/musr/command rootOutput muDecayDetID off
+
+/musr/command rootOutput muDecayPosX off
+
+/musr/command rootOutput muDecayPosY off
+
+/musr/command rootOutput muDecayPosZ off
+
+/musr/command rootOutput muDecayTime off
+
+/musr/command rootOutput muDecayPolX off
+
+/musr/command rootOutput muDecayPolY off
+
+/musr/command rootOutput muDecayPolZ off
+
+/musr/command rootOutput muTargetTime off
+
+/musr/command rootOutput muTargetPolX off
+
+/musr/command rootOutput muTargetPolY off
+
+/musr/command rootOutput muTargetPolZ off
+
+/musr/command rootOutput muM0Time off
+
+/musr/command rootOutput muM0PolX off
+
+/musr/command rootOutput muM0PolY off
+
+/musr/command rootOutput muM0PolZ off
+
+/musr/command rootOutput muM1Time off
+
+/musr/command rootOutput muM1PolX off
+
+/musr/command rootOutput muM1PolY off
+
+/musr/command rootOutput muM1PolZ off
+
+/musr/command rootOutput muM2Time off
+
+/musr/command rootOutput muM2PolX off
+
+/musr/command rootOutput muM2PolY off
+
+/musr/command rootOutput muM2PolZ off
+
+/musr/command rootOutput posIniMomX off
+
+/musr/command rootOutput posIniMomY off
+
+/musr/command rootOutput posIniMomZ off
+
+/musr/command rootOutput fieldNomVal off
+
+#/musr/command rootOutput det_ID off
+
+#/musr/command rootOutput det_edep off
+
+/musr/command rootOutput det_edep_el off
+
+/musr/command rootOutput det_edep_pos off
+
+/musr/command rootOutput det_edep_gam off
+
+/musr/command rootOutput det_edep_mup off
+
+/musr/command rootOutput det_nsteps off
+
+/musr/command rootOutput det_length off
+
+/musr/command rootOutput det_start off
+
+/musr/command rootOutput det_end off
+
+#/musr/command rootOutput det_x off
+
+#/musr/command rootOutput det_y off
+
+#/musr/command rootOutput det_z off
+
+#/musr/command rootOutput det_kine off
+
+/musr/command rootOutput det_VrtxKine off
+
+/musr/command rootOutput det_VrtxX off
+
+/musr/command rootOutput det_VrtxY off
+
+/musr/command rootOutput det_VrtxZ off
+
+/musr/command rootOutput det_VrtxVolID off
+
+/musr/command rootOutput det_VrtxProcID off
+
+/musr/command rootOutput det_VrtxTrackID off
+
+/musr/command rootOutput det_VrtxPrtTrackID off
+
+# store the Priticle ID for analysis
+
+/musr/command rootOutput det_VrtxParticleID off
+
+/musr/command rootOutput det_VvvKine off
+
+/musr/command rootOutput det_VvvX off
+
+/musr/command rootOutput det_VvvY off
+
+/musr/command rootOutput det_VvvZ off
+
+/musr/command rootOutput det_VvvVolID off
+
+/musr/command rootOutput det_VvvProcID off
+
+/musr/command rootOutput det_VvvTrackID off
+
+/musr/command rootOutput det_VvvParticleID off
+
+/musr/command rootOutput odet_ID           off
+
+/musr/command rootOutput nOptPhot          off
+
+/musr/command rootOutput odet_nPhot        off
+
+/musr/command rootOutput odet_timeFirst    off
+
+/musr/command rootOutput odet_timeA        off
+
+/musr/command rootOutput odet_timeB        off
+
+/musr/command rootOutput odet_timeC        off
+
+/musr/command rootOutput odet_timeD        off
+
+/musr/command rootOutput odet_timeE        off
+
+/musr/command rootOutput odet_timeMean     off
+
+/musr/command rootOutput odet_timeLast     off
+
+/musr/command rootOutput odet_timeCFD      off
+
+/musr/command rootOutput odet_amplCFD      off
+
+### Root variables that are not written out by default, but can be switched on:
+
+#/musr/command rootOutput fieldIntegralBx on
+
+#/musr/command rootOutput fieldIntegralBy on
+
+#/musr/command rootOutput fieldIntegralBz on
+
+#/musr/command rootOutput fieldIntegralBz1 on
+
+#/musr/command rootOutput fieldIntegralBz2 on
+
+#/musr/command rootOutput fieldIntegralBz3 on
+
+
+
+# Set particle energy cuts on particular volumes (in MeV)
+
+#/musr/command SetUserLimits log_World ustepMax(mm) utrakMax(mm) utimeMax(ns) uekinMin(MeV) urangMin(mm)
+
+#/musr/command SetUserLimits log_ECAL -1 -1 -1 1.0 -1
+
+
+
+#/run/setCut 1 mm
+
+# Set the range cut on particular volumes (in mm)
+
+#/musr/command SetUserLimits   log_ECAL 1  -1 -1 -1 -1
+
+
+
+#CC
+
+/musr/command G4EmExtraPhysics SetCrossSecFactor gmumuFactor  1
+
+/musr/command G4EmExtraPhysics SetCrossSecFactor enFactor    1
+
+/musr/command G4EmExtraPhysics SetCrossSecFactor pnFactor    1
+
+
+
+
+
+###################################################################################
+
+#########################  V I S U A L I S A T I O N ##############################
+
+###################################################################################
+
+#/vis/disable
+
+#/control/execute visFromToni.mac
+
+#/control/execute visDawn101.mac
+
+#/control/execute visVRML.mac
+
+
+
+
+
+###################################################################################
+
+######################### P A R T I C L E   G U N #################################
+
+###################################################################################
+
+/gun/primaryparticle mu+
+
+/gun/vertex 0 0 -1500 mm
+
+/gun/kenergy 1 GeV
+
+/gun/vertexsigma -200 -50 0 mm
+
+#/gun/muonPolarizVector 0 0 1
+
+
+
+# sigma = 20%  ==> sigma 27*0.03 = 0.81
+
+#/gun/momentumsmearing 400 MeV
+
+#/gun/tiltsigma 0.0573 0.0573 0 deg
+
+# /gun/pitch 10.0573 deg
+
+#
+
+#/gps/particle ion
+
+#/gps/ion 39 86
+
+#/gps/ion 27 57 0 0
+
+#/gps/ion 38 90 0 0
+
+#/gps/position seems to be in cm !!!! 
+
+#/gps/position 0 0 0
+
+#/gps/energy 0 keV
+
+#/gps/ang/maxtheta 2 deg
+
+#/gps/ang/maxphi 2 deg
+
+########################  B E A M    O N  #######################################
+
+
+
+/run/beamOn 1000000 
+/run/beamOn 1000000 
+....oooOO0OOooo........oooOO0OOooo......End of the configuration file.....oooOO0OOooo........oooOO0OOooo......
+
+
+volumeID=-1	 non-rotated,  non-sensitive:   World Volume
+volumeID=21	 non-rotated,      sensitive:   Checking overlaps for volume phys_save21 (G4Box) ... OK! 
+musrDetectorConstruction.cc:  aScintSD added: /musr/ScintSD
+volumeID=22	 non-rotated,      sensitive:   Checking overlaps for volume phys_save22 (G4Box) ... OK! 
+volumeID=1	 non-rotated,  non-sensitive:   Checking overlaps for volume phys_Target_T1 (G4Box) ... OK! 
+volumeID=1	 non-rotated,  non-sensitive:   Checking overlaps for volume phys_Target_T2 (G4Box) ... OK! 
+volumeID=1	 non-rotated,  non-sensitive:   Checking overlaps for volume phys_Target_D1 (G4Box) ... OK! 
+volumeID=1	 non-rotated,  non-sensitive:   Checking overlaps for volume phys_Target_D2 (G4Tubs) ... OK! 
+volumeID=1	 non-rotated,  non-sensitive:   Checking overlaps for volume phys_Target_L1 (G4Box) ... OK! 
+volumeID=1	 non-rotated,  non-sensitive:   Checking overlaps for volume phys_Target_L2 (G4Box) ... OK! 
+volumeID=1	 non-rotated,  non-sensitive:   Checking overlaps for volume phys_Target_I1 (G4Box) ... OK! 
+volumeID=1	 non-rotated,  non-sensitive:   Checking overlaps for volume phys_Target_I2 (G4Box) ... OK! 
+volumeID=1	 non-rotated,  non-sensitive:   Checking overlaps for volume phys_Target_I3 (G4Box) ... OK! 
+volumeID=23	 non-rotated,      sensitive:   Checking overlaps for volume phys_save23 (G4Box) ... OK! 
+volumeID=24	 non-rotated,      sensitive:   Checking overlaps for volume phys_save24 (G4Box) ... OK! 
+The cross section for GammaConversionToMuons is artificially increased by the CrossSecFactor=1
+
+ hInelastic FTFP_BERT : threshold between BERT and FTFP is over the interval 
+ for pions :   3 to 6 GeV
+ for kaons :   3 to 6 GeV
+ for proton :  3 to 6 GeV
+ for neutron : 3 to 6 GeV
+
+### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
+******************************************
+*** Random Seed set by the system time ***
+******************************************
+seed1: 1732694716; seed2: 495675573
+
+----- HepJamesRandom engine status -----
+ Initial seed = 1732694716
+ u[] = 0.0692563 0.874255 0.344173 0.236143 0.338319 0.349204 0.173476 0.337811 0.568792 0.403202 0.779562 0.504611 0.0229348 0.337977 0.767863 0.759005 0.622375 0.773587 0.577497 0.0266935 0.5834 0.448771 0.857878 0.72435 0.918815 0.955907 0.892516 0.850225 0.895365 0.324694 0.985161 0.355139 0.193612 0.371496 0.149515 0.712527 0.580195 0.147505 0.296262 0.466013 0.341309 0.0213978 0.0696993 0.364367 0.166631 0.848559 0.52743 0.741648 0.695117 0.147098 0.430776 0.739402 0.942864 0.282351 0.786081 0.612489 0.00599253 0.81738 0.939159 0.469707 0.218308 0.638908 0.954378 0.849568 0.0703112 0.834476 0.671902 0.282443 0.576556 0.466689 0.0608937 0.554056 0.620525 0.641844 0.816975 0.82396 0.635399 0.99599 0.377981 0.295622 0.234526 0.155409 0.65784 0.810553 0.908296 0.735954 0.79171 0.989606 0.106849 0.930216 0.675401 0.358333 0.488108 0.207768 0.110831 0.40594 0.505282 
+ c = 0.0216029, cd = 0.456233, cm = 1
+ i97 = 96, u[i97] = 0.505282
+ j97 = 32, u[j97] = 0.193612
+----------------------------------------
+   musrPrimaryGeneratorAction::SetPrimaryParticleMuMinus():  USING mu+ AS PRIMARY PARTICLE!
+
+phot:  for gamma SubType=12 BuildTable=0
+      LambdaPrime table from 200 keV to 100 TeV in 61 bins 
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+ LivermorePhElectric : Emin=    0 eV  Emax=  100 TeV  SauterGavrila Fluo
+
+compt:  for gamma SubType=13 BuildTable=1
+      Lambda table from 100 eV  to 1 MeV, 7 bins/decade, spline: 1
+      LambdaPrime table from 1 MeV to 100 TeV in 56 bins 
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+       Klein-Nishina : Emin=    0 eV  Emax=  100 TeV
+
+conv:  for gamma SubType=14 BuildTable=1
+      Lambda table from 1.022 MeV to 100 TeV, 18 bins/decade, spline: 1
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+     BetheHeitlerLPM : Emin=    0 eV  Emax=  100 TeV  ModifiedTsai
+
+Rayl:  for gamma SubType=11 BuildTable=1
+      Lambda table from 100 eV  to 100 keV, 7 bins/decade, spline: 0
+      LambdaPrime table from 100 keV to 100 TeV in 63 bins 
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+   LivermoreRayleigh : Emin=    0 eV  Emax=  100 TeV  CullenGenerator
+
+GammaToMuPair:  gamma->mu+mu- Bethe Heitler process, SubType= 15
+        good cross section parametrization from 211.317 MeV to 1e+12 GeV for all Z.
+
+msc:  for e-  SubType= 10
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+            UrbanMsc : Emin=    0 eV  Emax=  100 MeV Nbins=42 100 eV  - 100 MeV
+              StepLim=UseSafety Rfact=0.04 Gfact=2.5 Sfact=0.6 DispFlag:1 Skin=1 Llimit=1
+        WentzelVIUni : Emin=  100 MeV Emax=  100 TeV Nbins=42 100 MeV - 100 TeV
+              StepLim=UseSafety Rfact=0.04 Gfact=2.5 Sfact=0.6 DispFlag:1 Skin=1 Llimit=1
+
+eIoni:  for e-  SubType=2
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      StepFunction=(0.2, 1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+        MollerBhabha : Emin=    0 eV  Emax=  100 TeV
+
+eBrem:  for e-  SubType=3
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      LPM flag: 1 for E > 1 GeV,  VertexHighEnergyTh(GeV)= 100000
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+             eBremSB : Emin=    0 eV  Emax=    1 GeV  ModifiedTsai
+            eBremLPM : Emin=    1 GeV Emax=  100 TeV  ModifiedTsai
+
+CoulombScat:  for e-, integral:1  SubType=1 BuildTable=1
+      Lambda table from 100 MeV to 100 TeV, 7 bins/decade, spline: 1
+      ThetaMin(p) < Theta(degree) < 180; pLimit(GeV^1)= 0.139531
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+  eCoulombScattering : Emin=  100 MeV Emax=  100 TeV
+
+msc:  for e+  SubType= 10
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+            UrbanMsc : Emin=    0 eV  Emax=  100 MeV Nbins=42 100 eV  - 100 MeV
+              StepLim=UseSafety Rfact=0.04 Gfact=2.5 Sfact=0.6 DispFlag:1 Skin=1 Llimit=1
+        WentzelVIUni : Emin=  100 MeV Emax=  100 TeV Nbins=42 100 MeV - 100 TeV
+              StepLim=UseSafety Rfact=0.04 Gfact=2.5 Sfact=0.6 DispFlag:1 Skin=1 Llimit=1
+
+eIoni:  for e+  SubType=2
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      StepFunction=(0.2, 1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+        MollerBhabha : Emin=    0 eV  Emax=  100 TeV
+
+eBrem:  for e+  SubType=3
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      LPM flag: 1 for E > 1 GeV,  VertexHighEnergyTh(GeV)= 100000
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+             eBremSB : Emin=    0 eV  Emax=    1 GeV  ModifiedTsai
+            eBremLPM : Emin=    1 GeV Emax=  100 TeV  ModifiedTsai
+
+annihil:  for e+, integral:1  SubType=5 BuildTable=0
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+            eplus2gg : Emin=    0 eV  Emax=  100 TeV
+
+CoulombScat:  for e+, integral:1  SubType=1 BuildTable=1
+      Lambda table from 100 MeV to 100 TeV, 7 bins/decade, spline: 1
+      ThetaMin(p) < Theta(degree) < 180; pLimit(GeV^1)= 0.139531
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+  eCoulombScattering : Emin=  100 MeV Emax=  100 TeV
+
+msc:  for proton  SubType= 10
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+        WentzelVIUni : Emin=    0 eV  Emax=  100 TeV Nbins=84 100 eV  - 100 TeV
+              StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llimit=1
+
+hIoni:  for proton  SubType=2
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+               Bragg : Emin=    0 eV  Emax=    2 MeV
+          BetheBloch : Emin=    2 MeV Emax=  100 TeV
+
+hBrems:  for proton  SubType=3
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+               hBrem : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
+
+hPairProd:  for proton  SubType=4
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      Sampling table 17x1001; from 7.50618 GeV to 100 TeV 
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+           hPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
+
+CoulombScat:  for proton, integral:1  SubType=1 BuildTable=1
+      Lambda table from threshold  to 100 TeV, 7 bins/decade, spline: 1
+      ThetaMin(p) < Theta(degree) < 180; pLimit(GeV^1)= 0.139531
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+  eCoulombScattering : Emin=    0 eV  Emax=  100 TeV
+
+msc:  for GenericIon  SubType= 10
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+            UrbanMsc : Emin=    0 eV  Emax=  100 TeV
+              StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llimit=1
+
+ionIoni:  for GenericIon  SubType=2
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.02
+      Stopping Power data for 17 ion/material pairs
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+            BraggIon : Emin=    0 eV  Emax=    2 MeV
+          BetheBloch : Emin=    2 MeV Emax=  100 TeV
+
+msc:  for alpha  SubType= 10
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+            UrbanMsc : Emin=    0 eV  Emax=  100 TeV Nbins=84 100 eV  - 100 TeV
+              StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llimit=1
+
+ionIoni:  for alpha  SubType=2
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.02
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+            BraggIon : Emin=    0 eV  Emax=7.9452 MeV
+          BetheBloch : Emin=7.9452 MeV Emax=  100 TeV
+
+msc:  for anti_proton  SubType= 10
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+        WentzelVIUni : Emin=    0 eV  Emax=  100 TeV Nbins=84 100 eV  - 100 TeV
+              StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llimit=1
+
+hIoni:  for anti_proton  SubType=2
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+            ICRU73QO : Emin=    0 eV  Emax=    2 MeV
+          BetheBloch : Emin=    2 MeV Emax=  100 TeV
+
+hBrems:  for anti_proton  SubType=3
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+               hBrem : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
+
+hPairProd:  for anti_proton  SubType=4
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      Sampling table 17x1001; from 7.50618 GeV to 100 TeV 
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+           hPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
+
+CoulombScat:  for anti_proton, integral:1  SubType=1 BuildTable=1
+      Lambda table from threshold  to 100 TeV, 7 bins/decade, spline: 1
+      ThetaMin(p) < Theta(degree) < 180; pLimit(GeV^1)= 0.139531
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+  eCoulombScattering : Emin=    0 eV  Emax=  100 TeV
+
+msc:  for kaon+  SubType= 10
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+        WentzelVIUni : Emin=    0 eV  Emax=  100 TeV Nbins=84 100 eV  - 100 TeV
+              StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llimit=1
+
+hIoni:  for kaon+  SubType=2
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+               Bragg : Emin=    0 eV  Emax=1.05231 MeV
+          BetheBloch : Emin=1.05231 MeV Emax=  100 TeV
+
+hBrems:  for kaon+  SubType=3
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+               hBrem : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
+
+hPairProd:  for kaon+  SubType=4
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      Sampling table 18x1001; from 3.94942 GeV to 100 TeV 
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+           hPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
+
+CoulombScat:  for kaon+, integral:1  SubType=1 BuildTable=1
+      Lambda table from threshold  to 100 TeV, 7 bins/decade, spline: 1
+      ThetaMin(p) < Theta(degree) < 180; pLimit(GeV^1)= 0.139531
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+  eCoulombScattering : Emin=    0 eV  Emax=  100 TeV
+
+msc:  for kaon-  SubType= 10
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+        WentzelVIUni : Emin=    0 eV  Emax=  100 TeV Nbins=84 100 eV  - 100 TeV
+              StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llimit=1
+
+hIoni:  for kaon-  SubType=2
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+            ICRU73QO : Emin=    0 eV  Emax=1.05231 MeV
+          BetheBloch : Emin=1.05231 MeV Emax=  100 TeV
+
+hBrems:  for kaon-  SubType=3
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+               hBrem : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
+
+hPairProd:  for kaon-  SubType=4
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      Sampling table 18x1001; from 3.94942 GeV to 100 TeV 
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+           hPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
+
+CoulombScat:  for kaon-, integral:1  SubType=1 BuildTable=1
+      Used Lambda table of kaon+
+      ThetaMin(p) < Theta(degree) < 180; pLimit(GeV^1)= 0.139531
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+  eCoulombScattering : Emin=    0 eV  Emax=  100 TeV
+
+msc:  for mu+  SubType= 10
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+        WentzelVIUni : Emin=    0 eV  Emax=  100 TeV Nbins=84 100 eV  - 100 TeV
+              StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llimit=1
+
+muIoni:  for mu+  SubType=2
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+               Bragg : Emin=    0 eV  Emax=  200 keV
+          BetheBloch : Emin=  200 keV Emax=    1 GeV
+        MuBetheBloch : Emin=    1 GeV Emax=  100 TeV
+
+muBrems:  for mu+  SubType=3
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+              MuBrem : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
+
+muPairProd:  for mu+  SubType=4
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      Sampling table 21x1001; from 1 GeV to 100 TeV 
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+          muPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
+
+CoulombScat:  for mu+, integral:1  SubType=1 BuildTable=1
+      Lambda table from threshold  to 100 TeV, 7 bins/decade, spline: 1
+      ThetaMin(p) < Theta(degree) < 180; pLimit(GeV^1)= 0.139531
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+  eCoulombScattering : Emin=    0 eV  Emax=  100 TeV
+
+msc:  for mu-  SubType= 10
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+        WentzelVIUni : Emin=    0 eV  Emax=  100 TeV Nbins=84 100 eV  - 100 TeV
+              StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llimit=1
+
+muIoni:  for mu-  SubType=2
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+            ICRU73QO : Emin=    0 eV  Emax=  200 keV
+          BetheBloch : Emin=  200 keV Emax=    1 GeV
+        MuBetheBloch : Emin=    1 GeV Emax=  100 TeV
+
+muBrems:  for mu-  SubType=3
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+              MuBrem : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
+
+muPairProd:  for mu-  SubType=4
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      Sampling table 21x1001; from 1 GeV to 100 TeV 
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+          muPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
+
+CoulombScat:  for mu-, integral:1  SubType=1 BuildTable=1
+      Used Lambda table of mu+
+      ThetaMin(p) < Theta(degree) < 180; pLimit(GeV^1)= 0.139531
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+  eCoulombScattering : Emin=    0 eV  Emax=  100 TeV
+
+msc:  for pi+  SubType= 10
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+        WentzelVIUni : Emin=    0 eV  Emax=  100 TeV Nbins=84 100 eV  - 100 TeV
+              StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llimit=1
+
+hIoni:  for pi+  SubType=2
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+               Bragg : Emin=    0 eV  Emax=297.505 keV
+          BetheBloch : Emin=297.505 keV Emax=  100 TeV
+
+hBrems:  for pi+  SubType=3
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+               hBrem : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
+
+hPairProd:  for pi+  SubType=4
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      Sampling table 20x1001; from 1.11656 GeV to 100 TeV 
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+           hPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
+
+CoulombScat:  for pi+, integral:1  SubType=1 BuildTable=1
+      Lambda table from threshold  to 100 TeV, 7 bins/decade, spline: 1
+      ThetaMin(p) < Theta(degree) < 180; pLimit(GeV^1)= 0.139531
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+  eCoulombScattering : Emin=    0 eV  Emax=  100 TeV
+
+msc:  for pi-  SubType= 10
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+        WentzelVIUni : Emin=    0 eV  Emax=  100 TeV Nbins=84 100 eV  - 100 TeV
+              StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llimit=1
+
+hIoni:  for pi-  SubType=2
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+            ICRU73QO : Emin=    0 eV  Emax=297.505 keV
+          BetheBloch : Emin=297.505 keV Emax=  100 TeV
+
+hBrems:  for pi-  SubType=3
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+               hBrem : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
+
+hPairProd:  for pi-  SubType=4
+      dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
+      Sampling table 20x1001; from 1.11656 GeV to 100 TeV 
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+           hPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
+
+CoulombScat:  for pi-, integral:1  SubType=1 BuildTable=1
+      Used Lambda table of pi+
+      ThetaMin(p) < Theta(degree) < 180; pLimit(GeV^1)= 0.139531
+      ===== EM models for the G4Region  DefaultRegionForTheWorld ======
+  eCoulombScattering : Emin=    0 eV  Emax=  100 TeV
+
+====================================================================
+                  HADRONIC PROCESSES SUMMARY (verbose level 1)
+
+---------------------------------------------------
+                           Hadronic Processes for neutron
+
+  Process: hadElastic
+        Model:             hElasticCHIPS: 0 eV  ---> 100 TeV
+     Cr_sctns:        G4NeutronElasticXS: 0 eV  ---> 100 TeV
+
+  Process: neutronInelastic
+        Model:                      FTFP: 3 GeV ---> 100 TeV
+        Model:            BertiniCascade: 0 eV  ---> 6 GeV
+     Cr_sctns:      G4NeutronInelasticXS: 0 eV  ---> 100 TeV
+
+  Process: nCapture
+        Model:               nRadCapture: 0 eV  ---> 100 TeV
+     Cr_sctns:        G4NeutronCaptureXS: 0 eV  ---> 100 TeV
+
+  Process: nKiller
+
+---------------------------------------------------
+                           Hadronic Processes for B-
+
+  Process: hadElastic
+        Model:              hElasticLHEP: 0 eV  ---> 100 TeV
+     Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
+  Process: B-Inelastic
+        Model:                      FTFP: 0 eV  ---> 100 TeV
+     Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
+---------------------------------------------------
+                           Hadronic Processes for D-
+
+  Process: hadElastic
+        Model:              hElasticLHEP: 0 eV  ---> 100 TeV
+     Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
+  Process: D-Inelastic
+        Model:                      FTFP: 0 eV  ---> 100 TeV
+     Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
+---------------------------------------------------
+                           Hadronic Processes for GenericIon
+
+  Process: ionInelastic
+        Model:  Binary Light Ion Cascade: 0 eV /n ---> 6 GeV/n
+        Model:                      FTFP: 3 GeV/n ---> 100 TeV/n
+     Cr_sctns:  Glauber-Gribov Nucl-nucl: 0 eV  ---> 25.6 PeV
+
+---------------------------------------------------
+                           Hadronic Processes for He3
+
+  Process: hadElastic
+        Model:              hElasticLHEP: 0 eV /n ---> 100 TeV/n
+     Cr_sctns:  Glauber-Gribov Nucl-nucl: 0 eV  ---> 25.6 PeV
+
+  Process: He3Inelastic
+        Model:  Binary Light Ion Cascade: 0 eV /n ---> 6 GeV/n
+        Model:                      FTFP: 3 GeV/n ---> 100 TeV/n
+     Cr_sctns:  Glauber-Gribov Nucl-nucl: 0 eV  ---> 25.6 PeV
+
+---------------------------------------------------
+                           Hadronic Processes for alpha
+
+  Process: hadElastic
+        Model:              hElasticLHEP: 0 eV /n ---> 100 TeV/n
+     Cr_sctns:  Glauber-Gribov Nucl-nucl: 0 eV  ---> 25.6 PeV
+
+  Process: alphaInelastic
+        Model:  Binary Light Ion Cascade: 0 eV /n ---> 6 GeV/n
+        Model:                      FTFP: 3 GeV/n ---> 100 TeV/n
+     Cr_sctns:  Glauber-Gribov Nucl-nucl: 0 eV  ---> 25.6 PeV
+
+---------------------------------------------------
+                           Hadronic Processes for anti_He3
+
+  Process: hadElastic
+        Model:              hElasticLHEP: 0 eV /n ---> 100.1 MeV/n
+        Model:              AntiAElastic: 100 MeV/n ---> 100 TeV/n
+     Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
+
+  Process: anti_He3Inelastic
+        Model:                      FTFP: 0 eV /n ---> 100 TeV/n
+     Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
+
+  Process: hFritiofCaptureAtRest
+
+---------------------------------------------------
+                           Hadronic Processes for anti_alpha
+
+  Process: hadElastic
+        Model:              hElasticLHEP: 0 eV /n ---> 100.1 MeV/n
+        Model:              AntiAElastic: 100 MeV/n ---> 100 TeV/n
+     Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
+
+  Process: anti_alphaInelastic
+        Model:                      FTFP: 0 eV /n ---> 100 TeV/n
+     Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
+
+  Process: hFritiofCaptureAtRest
+
+---------------------------------------------------
+                           Hadronic Processes for anti_deuteron
+
+  Process: hadElastic
+        Model:              hElasticLHEP: 0 eV /n ---> 100.1 MeV/n
+        Model:              AntiAElastic: 100 MeV/n ---> 100 TeV/n
+     Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
+
+  Process: anti_deuteronInelastic
+        Model:                      FTFP: 0 eV /n ---> 100 TeV/n
+     Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
+
+  Process: hFritiofCaptureAtRest
+
+---------------------------------------------------
+                           Hadronic Processes for anti_lambda
+
+  Process: hadElastic
+        Model:              hElasticLHEP: 0 eV  ---> 100 TeV
+     Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
+  Process: anti_lambdaInelastic
+        Model:                      FTFP: 0 eV  ---> 100 TeV
+     Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
+  Process: hFritiofCaptureAtRest
+
+---------------------------------------------------
+                           Hadronic Processes for anti_neutron
+
+  Process: hadElastic
+        Model:              hElasticLHEP: 0 eV  ---> 100.1 MeV
+        Model:              AntiAElastic: 100 MeV ---> 100 TeV
+     Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
+
+  Process: anti_neutronInelastic
+        Model:                      FTFP: 0 eV  ---> 100 TeV
+     Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
+
+  Process: hFritiofCaptureAtRest
+
+---------------------------------------------------
+                           Hadronic Processes for anti_proton
+
+  Process: hadElastic
+        Model:              hElasticLHEP: 0 eV  ---> 100.1 MeV
+        Model:              AntiAElastic: 100 MeV ---> 100 TeV
+     Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
+
+  Process: anti_protonInelastic
+        Model:                      FTFP: 0 eV  ---> 100 TeV
+     Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
+
+  Process: hFritiofCaptureAtRest
+
+---------------------------------------------------
+                           Hadronic Processes for anti_triton
+
+  Process: hadElastic
+        Model:              hElasticLHEP: 0 eV /n ---> 100.1 MeV/n
+        Model:              AntiAElastic: 100 MeV/n ---> 100 TeV/n
+     Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
+
+  Process: anti_tritonInelastic
+        Model:                      FTFP: 0 eV /n ---> 100 TeV/n
+     Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
+
+  Process: hFritiofCaptureAtRest
+
+---------------------------------------------------
+                           Hadronic Processes for deuteron
+
+  Process: hadElastic
+        Model:              hElasticLHEP: 0 eV /n ---> 100 TeV/n
+     Cr_sctns:  Glauber-Gribov Nucl-nucl: 0 eV  ---> 25.6 PeV
+
+  Process: dInelastic
+        Model:  Binary Light Ion Cascade: 0 eV /n ---> 6 GeV/n
+        Model:                      FTFP: 3 GeV/n ---> 100 TeV/n
+     Cr_sctns:  Glauber-Gribov Nucl-nucl: 0 eV  ---> 25.6 PeV
+
+---------------------------------------------------
+                           Hadronic Processes for e+
+
+  Process: electronNuclear
+        Model:   G4ElectroVDNuclearModel: 0 eV  ---> 1 PeV
+     Cr_sctns:          ElectroNuclearXS: 0 eV  ---> 100 TeV
+
+---------------------------------------------------
+                           Hadronic Processes for e-
+
+  Process: electronNuclear
+        Model:   G4ElectroVDNuclearModel: 0 eV  ---> 1 PeV
+     Cr_sctns:          ElectroNuclearXS: 0 eV  ---> 100 TeV
+
+---------------------------------------------------
+                           Hadronic Processes for gamma
+
+  Process: photonNuclear
+        Model:               GammaNPreco: 0 eV  ---> 200 MeV
+        Model:            BertiniCascade: 199 MeV ---> 6 GeV
+        Model:           TheoFSGenerator: 3 GeV ---> 100 TeV
+     Cr_sctns:            PhotoNuclearXS: 0 eV  ---> 100 TeV
+
+---------------------------------------------------
+                           Hadronic Processes for kaon+
+
+  Process: hadElastic
+        Model:              hElasticLHEP: 0 eV  ---> 100 TeV
+     Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
+  Process: kaon+Inelastic
+        Model:                      FTFP: 3 GeV ---> 100 TeV
+        Model:            BertiniCascade: 0 eV  ---> 6 GeV
+     Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
+---------------------------------------------------
+                           Hadronic Processes for kaon-
+
+  Process: hadElastic
+        Model:              hElasticLHEP: 0 eV  ---> 100 TeV
+     Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
+  Process: kaon-Inelastic
+        Model:                      FTFP: 3 GeV ---> 100 TeV
+        Model:            BertiniCascade: 0 eV  ---> 6 GeV
+     Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
+  Process: hBertiniCaptureAtRest
+
+---------------------------------------------------
+                           Hadronic Processes for lambda
+
+  Process: hadElastic
+        Model:              hElasticLHEP: 0 eV  ---> 100 TeV
+     Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
+  Process: lambdaInelastic
+        Model:                      FTFP: 3 GeV ---> 100 TeV
+        Model:            BertiniCascade: 0 eV  ---> 6 GeV
+     Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
+---------------------------------------------------
+                           Hadronic Processes for mu+
+
+  Process: muonNuclear
+        Model:      G4MuonVDNuclearModel: 0 eV  ---> 1 PeV
+     Cr_sctns:     KokoulinMuonNuclearXS: 0 eV  ---> 100 TeV
+
+---------------------------------------------------
+                           Hadronic Processes for mu-
+
+  Process: muonNuclear
+        Model:      G4MuonVDNuclearModel: 0 eV  ---> 1 PeV
+     Cr_sctns:     KokoulinMuonNuclearXS: 0 eV  ---> 100 TeV
+
+  Process: muMinusCaptureAtRest
+
+---------------------------------------------------
+                           Hadronic Processes for pi+
+
+  Process: hadElastic
+        Model:           hElasticGlauber: 0 eV  ---> 100 TeV
+     Cr_sctns:  BarashenkovGlauberGribov: 0 eV  ---> 100 TeV
+
+  Process: pi+Inelastic
+        Model:                      FTFP: 3 GeV ---> 100 TeV
+        Model:            BertiniCascade: 0 eV  ---> 6 GeV
+     Cr_sctns:  BarashenkovGlauberGribov: 0 eV  ---> 100 TeV
+
+---------------------------------------------------
+                           Hadronic Processes for pi-
+
+  Process: hadElastic
+        Model:           hElasticGlauber: 0 eV  ---> 100 TeV
+     Cr_sctns:  BarashenkovGlauberGribov: 0 eV  ---> 100 TeV
+
+  Process: pi-Inelastic
+        Model:                      FTFP: 3 GeV ---> 100 TeV
+        Model:            BertiniCascade: 0 eV  ---> 6 GeV
+     Cr_sctns:  BarashenkovGlauberGribov: 0 eV  ---> 100 TeV
+
+  Process: hBertiniCaptureAtRest
+
+---------------------------------------------------
+                           Hadronic Processes for proton
+
+  Process: hadElastic
+        Model:             hElasticCHIPS: 0 eV  ---> 100 TeV
+     Cr_sctns:  BarashenkovGlauberGribov: 0 eV  ---> 100 TeV
+
+  Process: protonInelastic
+        Model:                      FTFP: 3 GeV ---> 100 TeV
+        Model:            BertiniCascade: 0 eV  ---> 6 GeV
+     Cr_sctns:  BarashenkovGlauberGribov: 0 eV  ---> 100 TeV
+
+---------------------------------------------------
+                           Hadronic Processes for sigma-
+
+  Process: hadElastic
+        Model:              hElasticLHEP: 0 eV  ---> 100 TeV
+     Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
+  Process: sigma-Inelastic
+        Model:                      FTFP: 3 GeV ---> 100 TeV
+        Model:            BertiniCascade: 0 eV  ---> 6 GeV
+     Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
+  Process: hBertiniCaptureAtRest
+
+---------------------------------------------------
+                           Hadronic Processes for triton
+
+  Process: hadElastic
+        Model:              hElasticLHEP: 0 eV /n ---> 100 TeV/n
+     Cr_sctns:  Glauber-Gribov Nucl-nucl: 0 eV  ---> 25.6 PeV
+
+  Process: tInelastic
+        Model:  Binary Light Ion Cascade: 0 eV /n ---> 6 GeV/n
+        Model:                      FTFP: 3 GeV/n ---> 100 TeV/n
+     Cr_sctns:  Glauber-Gribov Nucl-nucl: 0 eV  ---> 25.6 PeV
+
+================================================================
+=======================================================================
+======       Pre-compound/De-excitation Physics Parameters     ========
+=======================================================================
+Type of pre-compound inverse x-section              3
+Pre-compound model active                           1
+Pre-compound excitation low energy (MeV)            0.1
+Pre-compound excitation high energy (MeV)           30
+Type of de-excitation inverse x-section             3
+Type of de-excitation factory                       Evaporation+GEM
+Number of de-excitation channels                    68
+Min excitation energy (keV)                         0.01
+Min energy per nucleon for multifragmentation (MeV) 2e+05
+Limit excitation energy for Fermi BreakUp (MeV)     20
+Level density (1/MeV)                               0.075
+Use simple level density model                      1
+Use discrete excitation energy of the residual      0
+Time limit for long lived isomeres (ns)             1
+Isomer production flag                              1
+Internal e- conversion flag                         1
+Store e- internal conversion data                   0
+Electron internal conversion ID                     2
+Correlated gamma emission flag                      0
+Max 2J for sampling of angular correlations         10
+=======================================================================
+G4VisManager: Using G4TrajectoryDrawByCharge as fallback trajectory model.
+See commands in /vis/modeling/trajectories/ for other options.
+### Run 0
+musrRootOutput::BeginOfRunAction()  Defining the Root tree and branches:
+musrRootOutput::BeginOfRunAction()  The Root tree and branches were defined.
+WARNING: G4VisManager::IsValidView(): Attempt to draw when no graphics system
+  has been instantiated.  Use "/vis/open" or "/vis/sceneHandler/create".
+  Alternatively, to avoid this message, suppress instantiation of vis
+  manager (G4VisExecutive) and ensure drawing code is executed only if
+  G4VVisManager::GetConcreteInstance() is non-zero.
+>>> Event 1000. Running already for 0 seconds.  Present time: Wed Nov 27 16:05:19 2024
+>>> Event 2000. Running already for 1 seconds.  Present time: Wed Nov 27 16:05:20 2024
+>>> Event 3000. Running already for 2 seconds.  Present time: Wed Nov 27 16:05:21 2024
+>>> Event 4000. Running already for 2 seconds.  Present time: Wed Nov 27 16:05:21 2024
+>>> Event 5000. Running already for 3 seconds.  Present time: Wed Nov 27 16:05:22 2024
+>>> Event 6000. Running already for 3 seconds.  Present time: Wed Nov 27 16:05:22 2024
+>>> Event 7000. Running already for 4 seconds.  Present time: Wed Nov 27 16:05:23 2024
+>>> Event 8000. Running already for 4 seconds.  Present time: Wed Nov 27 16:05:23 2024
+>>> Event 9000. Running already for 5 seconds.  Present time: Wed Nov 27 16:05:24 2024
+>>> Event 10000. Running already for 5 seconds.  Present time: Wed Nov 27 16:05:24 2024
+>>> Event 11000. Running already for 6 seconds.  Present time: Wed Nov 27 16:05:25 2024
+>>> Event 12000. Running already for 7 seconds.  Present time: Wed Nov 27 16:05:26 2024
+>>> Event 13000. Running already for 7 seconds.  Present time: Wed Nov 27 16:05:26 2024
+>>> Event 14000. Running already for 8 seconds.  Present time: Wed Nov 27 16:05:27 2024
+!!!WARNING!!! musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "neutron" deposited energy.  (First time occurrence)
+!!!WARNING!!! musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "proton" deposited energy.  (First time occurrence)
+>>> Event 15000. Running already for 8 seconds.  Present time: Wed Nov 27 16:05:27 2024
+>>> Event 16000. Running already for 9 seconds.  Present time: Wed Nov 27 16:05:28 2024
+>>> Event 17000. Running already for 9 seconds.  Present time: Wed Nov 27 16:05:28 2024
+>>> Event 18000. Running already for 10 seconds.  Present time: Wed Nov 27 16:05:29 2024
+>>> Event 19000. Running already for 11 seconds.  Present time: Wed Nov 27 16:05:30 2024
+>>> Event 20000. Running already for 11 seconds.  Present time: Wed Nov 27 16:05:30 2024
+!!!WARNING!!! musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "C12" deposited energy.  (First time occurrence)
+!!!WARNING!!! musrRootOutput::ConvertProcessToID: No ID number assigned to the process "CoulombScat" .  (First time occurrence)
+>>> Event 21000. Running already for 12 seconds.  Present time: Wed Nov 27 16:05:31 2024
+>>> Event 22000. Running already for 12 seconds.  Present time: Wed Nov 27 16:05:31 2024
+>>> Event 23000. Running already for 13 seconds.  Present time: Wed Nov 27 16:05:32 2024
+>>> Event 24000. Running already for 13 seconds.  Present time: Wed Nov 27 16:05:32 2024
+>>> Event 25000. Running already for 14 seconds.  Present time: Wed Nov 27 16:05:33 2024
+>>> Event 26000. Running already for 15 seconds.  Present time: Wed Nov 27 16:05:34 2024
+>>> Event 27000. Running already for 15 seconds.  Present time: Wed Nov 27 16:05:34 2024
+>>> Event 28000. Running already for 16 seconds.  Present time: Wed Nov 27 16:05:35 2024
+>>> Event 29000. Running already for 16 seconds.  Present time: Wed Nov 27 16:05:35 2024
+>>> Event 30000. Running already for 17 seconds.  Present time: Wed Nov 27 16:05:36 2024
+>>> Event 31000. Running already for 17 seconds.  Present time: Wed Nov 27 16:05:36 2024
+>>> Event 32000. Running already for 18 seconds.  Present time: Wed Nov 27 16:05:37 2024
+>>> Event 33000. Running already for 18 seconds.  Present time: Wed Nov 27 16:05:37 2024
+>>> Event 34000. Running already for 19 seconds.  Present time: Wed Nov 27 16:05:38 2024
+>>> Event 35000. Running already for 19 seconds.  Present time: Wed Nov 27 16:05:38 2024
+>>> Event 36000. Running already for 20 seconds.  Present time: Wed Nov 27 16:05:39 2024
+>>> Event 37000. Running already for 21 seconds.  Present time: Wed Nov 27 16:05:40 2024
+>>> Event 38000. Running already for 21 seconds.  Present time: Wed Nov 27 16:05:40 2024
+>>> Event 39000. Running already for 22 seconds.  Present time: Wed Nov 27 16:05:41 2024
+>>> Event 40000. Running already for 22 seconds.  Present time: Wed Nov 27 16:05:41 2024
+>>> Event 41000. Running already for 23 seconds.  Present time: Wed Nov 27 16:05:42 2024
+>>> Event 42000. Running already for 23 seconds.  Present time: Wed Nov 27 16:05:42 2024
+>>> Event 43000. Running already for 24 seconds.  Present time: Wed Nov 27 16:05:43 2024
+>>> Event 44000. Running already for 24 seconds.  Present time: Wed Nov 27 16:05:43 2024
+>>> Event 45000. Running already for 25 seconds.  Present time: Wed Nov 27 16:05:44 2024
+>>> Event 46000. Running already for 25 seconds.  Present time: Wed Nov 27 16:05:44 2024
+>>> Event 47000. Running already for 26 seconds.  Present time: Wed Nov 27 16:05:45 2024
+>>> Event 48000. Running already for 26 seconds.  Present time: Wed Nov 27 16:05:45 2024
+>>> Event 49000. Running already for 27 seconds.  Present time: Wed Nov 27 16:05:46 2024
+>>> Event 50000. Running already for 27 seconds.  Present time: Wed Nov 27 16:05:46 2024
+>>> Event 51000. Running already for 28 seconds.  Present time: Wed Nov 27 16:05:47 2024
+>>> Event 52000. Running already for 30 seconds.  Present time: Wed Nov 27 16:05:49 2024
+>>> Event 53000. Running already for 30 seconds.  Present time: Wed Nov 27 16:05:49 2024
+>>> Event 54000. Running already for 31 seconds.  Present time: Wed Nov 27 16:05:50 2024
+>>> Event 55000. Running already for 31 seconds.  Present time: Wed Nov 27 16:05:50 2024
+>>> Event 56000. Running already for 32 seconds.  Present time: Wed Nov 27 16:05:51 2024
+>>> Event 57000. Running already for 33 seconds.  Present time: Wed Nov 27 16:05:52 2024
+>>> Event 58000. Running already for 33 seconds.  Present time: Wed Nov 27 16:05:52 2024
+>>> Event 59000. Running already for 34 seconds.  Present time: Wed Nov 27 16:05:53 2024
+>>> Event 60000. Running already for 34 seconds.  Present time: Wed Nov 27 16:05:53 2024
+>>> Event 61000. Running already for 35 seconds.  Present time: Wed Nov 27 16:05:54 2024
+>>> Event 62000. Running already for 35 seconds.  Present time: Wed Nov 27 16:05:54 2024
+>>> Event 63000. Running already for 36 seconds.  Present time: Wed Nov 27 16:05:55 2024
+>>> Event 64000. Running already for 36 seconds.  Present time: Wed Nov 27 16:05:55 2024
+>>> Event 65000. Running already for 37 seconds.  Present time: Wed Nov 27 16:05:56 2024
+>>> Event 66000. Running already for 37 seconds.  Present time: Wed Nov 27 16:05:56 2024
+>>> Event 67000. Running already for 38 seconds.  Present time: Wed Nov 27 16:05:57 2024
+>>> Event 68000. Running already for 38 seconds.  Present time: Wed Nov 27 16:05:57 2024
+>>> Event 69000. Running already for 39 seconds.  Present time: Wed Nov 27 16:05:58 2024
+>>> Event 70000. Running already for 39 seconds.  Present time: Wed Nov 27 16:05:58 2024
+>>> Event 71000. Running already for 40 seconds.  Present time: Wed Nov 27 16:05:59 2024
+>>> Event 72000. Running already for 40 seconds.  Present time: Wed Nov 27 16:05:59 2024
+>>> Event 73000. Running already for 41 seconds.  Present time: Wed Nov 27 16:06:00 2024
+>>> Event 74000. Running already for 41 seconds.  Present time: Wed Nov 27 16:06:00 2024
+>>> Event 75000. Running already for 42 seconds.  Present time: Wed Nov 27 16:06:01 2024
+>>> Event 76000. Running already for 42 seconds.  Present time: Wed Nov 27 16:06:01 2024
+>>> Event 77000. Running already for 43 seconds.  Present time: Wed Nov 27 16:06:02 2024
+>>> Event 78000. Running already for 45 seconds.  Present time: Wed Nov 27 16:06:04 2024
+>>> Event 79000. Running already for 45 seconds.  Present time: Wed Nov 27 16:06:04 2024
+>>> Event 80000. Running already for 46 seconds.  Present time: Wed Nov 27 16:06:05 2024
+>>> Event 81000. Running already for 46 seconds.  Present time: Wed Nov 27 16:06:05 2024
+>>> Event 82000. Running already for 47 seconds.  Present time: Wed Nov 27 16:06:06 2024
+>>> Event 83000. Running already for 47 seconds.  Present time: Wed Nov 27 16:06:06 2024
+>>> Event 84000. Running already for 48 seconds.  Present time: Wed Nov 27 16:06:07 2024
+>>> Event 85000. Running already for 49 seconds.  Present time: Wed Nov 27 16:06:08 2024
+>>> Event 86000. Running already for 49 seconds.  Present time: Wed Nov 27 16:06:08 2024
+>>> Event 87000. Running already for 50 seconds.  Present time: Wed Nov 27 16:06:09 2024
+>>> Event 88000. Running already for 50 seconds.  Present time: Wed Nov 27 16:06:09 2024
+>>> Event 89000. Running already for 51 seconds.  Present time: Wed Nov 27 16:06:10 2024
+>>> Event 90000. Running already for 51 seconds.  Present time: Wed Nov 27 16:06:10 2024
+>>> Event 91000. Running already for 52 seconds.  Present time: Wed Nov 27 16:06:11 2024
+>>> Event 92000. Running already for 52 seconds.  Present time: Wed Nov 27 16:06:11 2024
+>>> Event 93000. Running already for 53 seconds.  Present time: Wed Nov 27 16:06:12 2024
+>>> Event 94000. Running already for 53 seconds.  Present time: Wed Nov 27 16:06:12 2024
+>>> Event 95000. Running already for 54 seconds.  Present time: Wed Nov 27 16:06:13 2024
+>>> Event 96000. Running already for 54 seconds.  Present time: Wed Nov 27 16:06:13 2024
+>>> Event 97000. Running already for 55 seconds.  Present time: Wed Nov 27 16:06:14 2024
+>>> Event 98000. Running already for 55 seconds.  Present time: Wed Nov 27 16:06:14 2024
+>>> Event 99000. Running already for 56 seconds.  Present time: Wed Nov 27 16:06:15 2024
+>>> Event 100000. Running already for 56 seconds.  Present time: Wed Nov 27 16:06:15 2024
+>>> Event 101000. Running already for 57 seconds.  Present time: Wed Nov 27 16:06:16 2024
+>>> Event 102000. Running already for 57 seconds.  Present time: Wed Nov 27 16:06:16 2024
+>>> Event 103000. Running already for 58 seconds.  Present time: Wed Nov 27 16:06:17 2024
+>>> Event 104000. Running already for 60 seconds.  Present time: Wed Nov 27 16:06:19 2024
+>>> Event 105000. Running already for 61 seconds.  Present time: Wed Nov 27 16:06:20 2024
+>>> Event 106000. Running already for 61 seconds.  Present time: Wed Nov 27 16:06:20 2024
+>>> Event 107000. Running already for 62 seconds.  Present time: Wed Nov 27 16:06:21 2024
+>>> Event 108000. Running already for 62 seconds.  Present time: Wed Nov 27 16:06:21 2024
+>>> Event 109000. Running already for 63 seconds.  Present time: Wed Nov 27 16:06:22 2024
+>>> Event 110000. Running already for 63 seconds.  Present time: Wed Nov 27 16:06:22 2024
+>>> Event 111000. Running already for 64 seconds.  Present time: Wed Nov 27 16:06:23 2024
+>>> Event 112000. Running already for 64 seconds.  Present time: Wed Nov 27 16:06:23 2024
+>>> Event 113000. Running already for 65 seconds.  Present time: Wed Nov 27 16:06:24 2024
+>>> Event 114000. Running already for 65 seconds.  Present time: Wed Nov 27 16:06:24 2024
+>>> Event 115000. Running already for 66 seconds.  Present time: Wed Nov 27 16:06:25 2024
+>>> Event 116000. Running already for 66 seconds.  Present time: Wed Nov 27 16:06:25 2024
+>>> Event 117000. Running already for 67 seconds.  Present time: Wed Nov 27 16:06:26 2024
+>>> Event 118000. Running already for 67 seconds.  Present time: Wed Nov 27 16:06:26 2024
+>>> Event 119000. Running already for 68 seconds.  Present time: Wed Nov 27 16:06:27 2024
+>>> Event 120000. Running already for 68 seconds.  Present time: Wed Nov 27 16:06:27 2024
+>>> Event 121000. Running already for 69 seconds.  Present time: Wed Nov 27 16:06:28 2024
+>>> Event 122000. Running already for 69 seconds.  Present time: Wed Nov 27 16:06:28 2024
+>>> Event 123000. Running already for 70 seconds.  Present time: Wed Nov 27 16:06:29 2024
+>>> Event 124000. Running already for 70 seconds.  Present time: Wed Nov 27 16:06:29 2024
+>>> Event 125000. Running already for 71 seconds.  Present time: Wed Nov 27 16:06:30 2024
+>>> Event 126000. Running already for 71 seconds.  Present time: Wed Nov 27 16:06:30 2024
+>>> Event 127000. Running already for 72 seconds.  Present time: Wed Nov 27 16:06:31 2024
+>>> Event 128000. Running already for 72 seconds.  Present time: Wed Nov 27 16:06:31 2024
+>>> Event 129000. Running already for 73 seconds.  Present time: Wed Nov 27 16:06:32 2024
+>>> Event 130000. Running already for 75 seconds.  Present time: Wed Nov 27 16:06:34 2024
+>>> Event 131000. Running already for 76 seconds.  Present time: Wed Nov 27 16:06:35 2024
+!!!WARNING!!! musrScintSD.cc::EndOfEvent(): number of signals exceeds maximal allowed value.  (First time occurrence)
+>>> Event 132000. Running already for 76 seconds.  Present time: Wed Nov 27 16:06:35 2024
+>>> Event 133000. Running already for 77 seconds.  Present time: Wed Nov 27 16:06:36 2024
+>>> Event 134000. Running already for 77 seconds.  Present time: Wed Nov 27 16:06:36 2024
+>>> Event 135000. Running already for 78 seconds.  Present time: Wed Nov 27 16:06:37 2024
+>>> Event 136000. Running already for 78 seconds.  Present time: Wed Nov 27 16:06:37 2024
+>>> Event 137000. Running already for 79 seconds.  Present time: Wed Nov 27 16:06:38 2024
+>>> Event 138000. Running already for 79 seconds.  Present time: Wed Nov 27 16:06:38 2024
+>>> Event 139000. Running already for 80 seconds.  Present time: Wed Nov 27 16:06:39 2024
+>>> Event 140000. Running already for 80 seconds.  Present time: Wed Nov 27 16:06:39 2024
+>>> Event 141000. Running already for 81 seconds.  Present time: Wed Nov 27 16:06:40 2024
+>>> Event 142000. Running already for 81 seconds.  Present time: Wed Nov 27 16:06:40 2024
+>>> Event 143000. Running already for 82 seconds.  Present time: Wed Nov 27 16:06:41 2024
+>>> Event 144000. Running already for 82 seconds.  Present time: Wed Nov 27 16:06:41 2024
+>>> Event 145000. Running already for 83 seconds.  Present time: Wed Nov 27 16:06:42 2024
+>>> Event 146000. Running already for 83 seconds.  Present time: Wed Nov 27 16:06:42 2024
+>>> Event 147000. Running already for 84 seconds.  Present time: Wed Nov 27 16:06:43 2024
+>>> Event 148000. Running already for 84 seconds.  Present time: Wed Nov 27 16:06:43 2024
+>>> Event 149000. Running already for 85 seconds.  Present time: Wed Nov 27 16:06:44 2024
+>>> Event 150000. Running already for 85 seconds.  Present time: Wed Nov 27 16:06:44 2024
+>>> Event 151000. Running already for 86 seconds.  Present time: Wed Nov 27 16:06:45 2024
+>>> Event 152000. Running already for 86 seconds.  Present time: Wed Nov 27 16:06:45 2024
+>>> Event 153000. Running already for 87 seconds.  Present time: Wed Nov 27 16:06:46 2024
+>>> Event 154000. Running already for 87 seconds.  Present time: Wed Nov 27 16:06:46 2024
+>>> Event 155000. Running already for 88 seconds.  Present time: Wed Nov 27 16:06:47 2024
+>>> Event 156000. Running already for 90 seconds.  Present time: Wed Nov 27 16:06:49 2024
+>>> Event 157000. Running already for 91 seconds.  Present time: Wed Nov 27 16:06:50 2024
+>>> Event 158000. Running already for 91 seconds.  Present time: Wed Nov 27 16:06:50 2024
+>>> Event 159000. Running already for 92 seconds.  Present time: Wed Nov 27 16:06:51 2024
+>>> Event 160000. Running already for 92 seconds.  Present time: Wed Nov 27 16:06:51 2024
+>>> Event 161000. Running already for 93 seconds.  Present time: Wed Nov 27 16:06:52 2024
+>>> Event 162000. Running already for 93 seconds.  Present time: Wed Nov 27 16:06:52 2024
+>>> Event 163000. Running already for 94 seconds.  Present time: Wed Nov 27 16:06:53 2024
+>>> Event 164000. Running already for 94 seconds.  Present time: Wed Nov 27 16:06:53 2024
+>>> Event 165000. Running already for 95 seconds.  Present time: Wed Nov 27 16:06:54 2024
+>>> Event 166000. Running already for 95 seconds.  Present time: Wed Nov 27 16:06:54 2024
+>>> Event 167000. Running already for 96 seconds.  Present time: Wed Nov 27 16:06:55 2024
+>>> Event 168000. Running already for 96 seconds.  Present time: Wed Nov 27 16:06:55 2024
+>>> Event 169000. Running already for 97 seconds.  Present time: Wed Nov 27 16:06:56 2024
+>>> Event 170000. Running already for 97 seconds.  Present time: Wed Nov 27 16:06:56 2024
+>>> Event 171000. Running already for 98 seconds.  Present time: Wed Nov 27 16:06:57 2024
+>>> Event 172000. Running already for 98 seconds.  Present time: Wed Nov 27 16:06:57 2024
+>>> Event 173000. Running already for 99 seconds.  Present time: Wed Nov 27 16:06:58 2024
+>>> Event 174000. Running already for 99 seconds.  Present time: Wed Nov 27 16:06:58 2024
+>>> Event 175000. Running already for 100 seconds.  Present time: Wed Nov 27 16:06:59 2024
+>>> Event 176000. Running already for 100 seconds.  Present time: Wed Nov 27 16:06:59 2024
+>>> Event 177000. Running already for 101 seconds.  Present time: Wed Nov 27 16:07:00 2024
+>>> Event 178000. Running already for 101 seconds.  Present time: Wed Nov 27 16:07:00 2024
+>>> Event 179000. Running already for 102 seconds.  Present time: Wed Nov 27 16:07:01 2024
+>>> Event 180000. Running already for 102 seconds.  Present time: Wed Nov 27 16:07:01 2024
+>>> Event 181000. Running already for 103 seconds.  Present time: Wed Nov 27 16:07:02 2024
+>>> Event 182000. Running already for 105 seconds.  Present time: Wed Nov 27 16:07:04 2024
+>>> Event 183000. Running already for 105 seconds.  Present time: Wed Nov 27 16:07:04 2024
+>>> Event 184000. Running already for 106 seconds.  Present time: Wed Nov 27 16:07:05 2024
+>>> Event 185000. Running already for 106 seconds.  Present time: Wed Nov 27 16:07:05 2024
+>>> Event 186000. Running already for 107 seconds.  Present time: Wed Nov 27 16:07:06 2024
+>>> Event 187000. Running already for 108 seconds.  Present time: Wed Nov 27 16:07:07 2024
+>>> Event 188000. Running already for 108 seconds.  Present time: Wed Nov 27 16:07:07 2024
+>>> Event 189000. Running already for 109 seconds.  Present time: Wed Nov 27 16:07:08 2024
+>>> Event 190000. Running already for 109 seconds.  Present time: Wed Nov 27 16:07:08 2024
+>>> Event 191000. Running already for 110 seconds.  Present time: Wed Nov 27 16:07:09 2024
+>>> Event 192000. Running already for 110 seconds.  Present time: Wed Nov 27 16:07:09 2024
+>>> Event 193000. Running already for 111 seconds.  Present time: Wed Nov 27 16:07:10 2024
+>>> Event 194000. Running already for 111 seconds.  Present time: Wed Nov 27 16:07:10 2024
+>>> Event 195000. Running already for 112 seconds.  Present time: Wed Nov 27 16:07:11 2024
+>>> Event 196000. Running already for 112 seconds.  Present time: Wed Nov 27 16:07:11 2024
+>>> Event 197000. Running already for 113 seconds.  Present time: Wed Nov 27 16:07:12 2024
+>>> Event 198000. Running already for 113 seconds.  Present time: Wed Nov 27 16:07:12 2024
+>>> Event 199000. Running already for 114 seconds.  Present time: Wed Nov 27 16:07:13 2024
+>>> Event 200000. Running already for 114 seconds.  Present time: Wed Nov 27 16:07:13 2024
+>>> Event 201000. Running already for 115 seconds.  Present time: Wed Nov 27 16:07:14 2024
+>>> Event 202000. Running already for 115 seconds.  Present time: Wed Nov 27 16:07:14 2024
+>>> Event 203000. Running already for 116 seconds.  Present time: Wed Nov 27 16:07:15 2024
+>>> Event 204000. Running already for 116 seconds.  Present time: Wed Nov 27 16:07:15 2024
+>>> Event 205000. Running already for 117 seconds.  Present time: Wed Nov 27 16:07:16 2024
+>>> Event 206000. Running already for 117 seconds.  Present time: Wed Nov 27 16:07:16 2024
+>>> Event 207000. Running already for 118 seconds.  Present time: Wed Nov 27 16:07:17 2024
+>>> Event 208000. Running already for 120 seconds.  Present time: Wed Nov 27 16:07:19 2024
+>>> Event 209000. Running already for 121 seconds.  Present time: Wed Nov 27 16:07:20 2024
+>>> Event 210000. Running already for 121 seconds.  Present time: Wed Nov 27 16:07:20 2024
+>>> Event 211000. Running already for 122 seconds.  Present time: Wed Nov 27 16:07:21 2024
+>>> Event 212000. Running already for 122 seconds.  Present time: Wed Nov 27 16:07:21 2024
+>>> Event 213000. Running already for 123 seconds.  Present time: Wed Nov 27 16:07:22 2024
+>>> Event 214000. Running already for 123 seconds.  Present time: Wed Nov 27 16:07:22 2024
+>>> Event 215000. Running already for 124 seconds.  Present time: Wed Nov 27 16:07:23 2024
+>>> Event 216000. Running already for 124 seconds.  Present time: Wed Nov 27 16:07:23 2024
+>>> Event 217000. Running already for 125 seconds.  Present time: Wed Nov 27 16:07:24 2024
+>>> Event 218000. Running already for 125 seconds.  Present time: Wed Nov 27 16:07:24 2024
+>>> Event 219000. Running already for 126 seconds.  Present time: Wed Nov 27 16:07:25 2024
+>>> Event 220000. Running already for 126 seconds.  Present time: Wed Nov 27 16:07:25 2024
+>>> Event 221000. Running already for 127 seconds.  Present time: Wed Nov 27 16:07:26 2024
+>>> Event 222000. Running already for 127 seconds.  Present time: Wed Nov 27 16:07:26 2024
+>>> Event 223000. Running already for 128 seconds.  Present time: Wed Nov 27 16:07:27 2024
+>>> Event 224000. Running already for 128 seconds.  Present time: Wed Nov 27 16:07:27 2024
+>>> Event 225000. Running already for 129 seconds.  Present time: Wed Nov 27 16:07:28 2024
+>>> Event 226000. Running already for 129 seconds.  Present time: Wed Nov 27 16:07:28 2024
+>>> Event 227000. Running already for 130 seconds.  Present time: Wed Nov 27 16:07:29 2024
+>>> Event 228000. Running already for 130 seconds.  Present time: Wed Nov 27 16:07:29 2024
+>>> Event 229000. Running already for 131 seconds.  Present time: Wed Nov 27 16:07:30 2024
+>>> Event 230000. Running already for 131 seconds.  Present time: Wed Nov 27 16:07:30 2024
+>>> Event 231000. Running already for 132 seconds.  Present time: Wed Nov 27 16:07:31 2024
+>>> Event 232000. Running already for 133 seconds.  Present time: Wed Nov 27 16:07:32 2024
+>>> Event 233000. Running already for 133 seconds.  Present time: Wed Nov 27 16:07:32 2024
+>>> Event 234000. Running already for 135 seconds.  Present time: Wed Nov 27 16:07:34 2024
+>>> Event 235000. Running already for 136 seconds.  Present time: Wed Nov 27 16:07:35 2024
+>>> Event 236000. Running already for 136 seconds.  Present time: Wed Nov 27 16:07:35 2024
+>>> Event 237000. Running already for 137 seconds.  Present time: Wed Nov 27 16:07:36 2024
+>>> Event 238000. Running already for 137 seconds.  Present time: Wed Nov 27 16:07:36 2024
+>>> Event 239000. Running already for 138 seconds.  Present time: Wed Nov 27 16:07:37 2024
+>>> Event 240000. Running already for 138 seconds.  Present time: Wed Nov 27 16:07:37 2024
+>>> Event 241000. Running already for 139 seconds.  Present time: Wed Nov 27 16:07:38 2024
+>>> Event 242000. Running already for 139 seconds.  Present time: Wed Nov 27 16:07:38 2024
+>>> Event 243000. Running already for 140 seconds.  Present time: Wed Nov 27 16:07:39 2024
+>>> Event 244000. Running already for 140 seconds.  Present time: Wed Nov 27 16:07:39 2024
+>>> Event 245000. Running already for 141 seconds.  Present time: Wed Nov 27 16:07:40 2024
+>>> Event 246000. Running already for 141 seconds.  Present time: Wed Nov 27 16:07:40 2024
+>>> Event 247000. Running already for 142 seconds.  Present time: Wed Nov 27 16:07:41 2024
+>>> Event 248000. Running already for 142 seconds.  Present time: Wed Nov 27 16:07:41 2024
+>>> Event 249000. Running already for 143 seconds.  Present time: Wed Nov 27 16:07:42 2024
+>>> Event 250000. Running already for 143 seconds.  Present time: Wed Nov 27 16:07:42 2024
+>>> Event 251000. Running already for 144 seconds.  Present time: Wed Nov 27 16:07:43 2024
+>>> Event 252000. Running already for 144 seconds.  Present time: Wed Nov 27 16:07:43 2024
+>>> Event 253000. Running already for 145 seconds.  Present time: Wed Nov 27 16:07:44 2024
+>>> Event 254000. Running already for 145 seconds.  Present time: Wed Nov 27 16:07:44 2024
+>>> Event 255000. Running already for 146 seconds.  Present time: Wed Nov 27 16:07:45 2024
+>>> Event 256000. Running already for 147 seconds.  Present time: Wed Nov 27 16:07:46 2024
+>>> Event 257000. Running already for 147 seconds.  Present time: Wed Nov 27 16:07:46 2024
+>>> Event 258000. Running already for 148 seconds.  Present time: Wed Nov 27 16:07:47 2024
+!!!WARNING!!! musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "alpha" deposited energy.  (First time occurrence)
+>>> Event 259000. Running already for 148 seconds.  Present time: Wed Nov 27 16:07:47 2024
+>>> Event 260000. Running already for 150 seconds.  Present time: Wed Nov 27 16:07:49 2024
+>>> Event 261000. Running already for 151 seconds.  Present time: Wed Nov 27 16:07:50 2024
+>>> Event 262000. Running already for 151 seconds.  Present time: Wed Nov 27 16:07:50 2024
+>>> Event 263000. Running already for 152 seconds.  Present time: Wed Nov 27 16:07:51 2024
+>>> Event 264000. Running already for 152 seconds.  Present time: Wed Nov 27 16:07:51 2024
+>>> Event 265000. Running already for 153 seconds.  Present time: Wed Nov 27 16:07:52 2024
+>>> Event 266000. Running already for 153 seconds.  Present time: Wed Nov 27 16:07:52 2024
+>>> Event 267000. Running already for 154 seconds.  Present time: Wed Nov 27 16:07:53 2024
+>>> Event 268000. Running already for 154 seconds.  Present time: Wed Nov 27 16:07:53 2024
+>>> Event 269000. Running already for 155 seconds.  Present time: Wed Nov 27 16:07:54 2024
+>>> Event 270000. Running already for 155 seconds.  Present time: Wed Nov 27 16:07:54 2024
+>>> Event 271000. Running already for 156 seconds.  Present time: Wed Nov 27 16:07:55 2024
+>>> Event 272000. Running already for 156 seconds.  Present time: Wed Nov 27 16:07:55 2024
+>>> Event 273000. Running already for 157 seconds.  Present time: Wed Nov 27 16:07:56 2024
+>>> Event 274000. Running already for 157 seconds.  Present time: Wed Nov 27 16:07:56 2024
+>>> Event 275000. Running already for 158 seconds.  Present time: Wed Nov 27 16:07:57 2024
+>>> Event 276000. Running already for 158 seconds.  Present time: Wed Nov 27 16:07:57 2024
+>>> Event 277000. Running already for 159 seconds.  Present time: Wed Nov 27 16:07:58 2024
+>>> Event 278000. Running already for 160 seconds.  Present time: Wed Nov 27 16:07:59 2024
+>>> Event 279000. Running already for 160 seconds.  Present time: Wed Nov 27 16:07:59 2024
+>>> Event 280000. Running already for 161 seconds.  Present time: Wed Nov 27 16:08:00 2024
+>>> Event 281000. Running already for 161 seconds.  Present time: Wed Nov 27 16:08:00 2024
+>>> Event 282000. Running already for 162 seconds.  Present time: Wed Nov 27 16:08:01 2024
+>>> Event 283000. Running already for 162 seconds.  Present time: Wed Nov 27 16:08:01 2024
+>>> Event 284000. Running already for 163 seconds.  Present time: Wed Nov 27 16:08:02 2024
+>>> Event 285000. Running already for 163 seconds.  Present time: Wed Nov 27 16:08:02 2024
+>>> Event 286000. Running already for 165 seconds.  Present time: Wed Nov 27 16:08:04 2024
+>>> Event 287000. Running already for 166 seconds.  Present time: Wed Nov 27 16:08:05 2024
+>>> Event 288000. Running already for 166 seconds.  Present time: Wed Nov 27 16:08:05 2024
+>>> Event 289000. Running already for 167 seconds.  Present time: Wed Nov 27 16:08:06 2024
+>>> Event 290000. Running already for 167 seconds.  Present time: Wed Nov 27 16:08:06 2024
+>>> Event 291000. Running already for 168 seconds.  Present time: Wed Nov 27 16:08:07 2024
+>>> Event 292000. Running already for 168 seconds.  Present time: Wed Nov 27 16:08:07 2024
+>>> Event 293000. Running already for 169 seconds.  Present time: Wed Nov 27 16:08:08 2024
+>>> Event 294000. Running already for 169 seconds.  Present time: Wed Nov 27 16:08:08 2024
+>>> Event 295000. Running already for 170 seconds.  Present time: Wed Nov 27 16:08:09 2024
+>>> Event 296000. Running already for 170 seconds.  Present time: Wed Nov 27 16:08:09 2024
+>>> Event 297000. Running already for 171 seconds.  Present time: Wed Nov 27 16:08:10 2024
+>>> Event 298000. Running already for 171 seconds.  Present time: Wed Nov 27 16:08:10 2024
+>>> Event 299000. Running already for 172 seconds.  Present time: Wed Nov 27 16:08:11 2024
+>>> Event 300000. Running already for 173 seconds.  Present time: Wed Nov 27 16:08:12 2024
+>>> Event 301000. Running already for 173 seconds.  Present time: Wed Nov 27 16:08:12 2024
+>>> Event 302000. Running already for 174 seconds.  Present time: Wed Nov 27 16:08:13 2024
+>>> Event 303000. Running already for 174 seconds.  Present time: Wed Nov 27 16:08:13 2024
+>>> Event 304000. Running already for 175 seconds.  Present time: Wed Nov 27 16:08:14 2024
+>>> Event 305000. Running already for 175 seconds.  Present time: Wed Nov 27 16:08:14 2024
+>>> Event 306000. Running already for 176 seconds.  Present time: Wed Nov 27 16:08:15 2024
+>>> Event 307000. Running already for 176 seconds.  Present time: Wed Nov 27 16:08:15 2024
+>>> Event 308000. Running already for 177 seconds.  Present time: Wed Nov 27 16:08:16 2024
+>>> Event 309000. Running already for 177 seconds.  Present time: Wed Nov 27 16:08:16 2024
+>>> Event 310000. Running already for 178 seconds.  Present time: Wed Nov 27 16:08:17 2024
+>>> Event 311000. Running already for 178 seconds.  Present time: Wed Nov 27 16:08:17 2024
+>>> Event 312000. Running already for 180 seconds.  Present time: Wed Nov 27 16:08:19 2024
+>>> Event 313000. Running already for 181 seconds.  Present time: Wed Nov 27 16:08:20 2024
+>>> Event 314000. Running already for 181 seconds.  Present time: Wed Nov 27 16:08:20 2024
+>>> Event 315000. Running already for 182 seconds.  Present time: Wed Nov 27 16:08:21 2024
+>>> Event 316000. Running already for 182 seconds.  Present time: Wed Nov 27 16:08:21 2024
+>>> Event 317000. Running already for 183 seconds.  Present time: Wed Nov 27 16:08:22 2024
+>>> Event 318000. Running already for 183 seconds.  Present time: Wed Nov 27 16:08:22 2024
+>>> Event 319000. Running already for 184 seconds.  Present time: Wed Nov 27 16:08:23 2024
+>>> Event 320000. Running already for 184 seconds.  Present time: Wed Nov 27 16:08:23 2024
+>>> Event 321000. Running already for 185 seconds.  Present time: Wed Nov 27 16:08:24 2024
+>>> Event 322000. Running already for 185 seconds.  Present time: Wed Nov 27 16:08:24 2024
+!!!WARNING!!! musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "Be8" deposited energy.  (First time occurrence)
+!!!WARNING!!! musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "triton" deposited energy.  (First time occurrence)
+!!!WARNING!!! musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "pi+" deposited energy.  (First time occurrence)
+>>> Event 323000. Running already for 186 seconds.  Present time: Wed Nov 27 16:08:25 2024
+>>> Event 324000. Running already for 186 seconds.  Present time: Wed Nov 27 16:08:25 2024
+>>> Event 325000. Running already for 187 seconds.  Present time: Wed Nov 27 16:08:26 2024
+>>> Event 326000. Running already for 187 seconds.  Present time: Wed Nov 27 16:08:26 2024
+>>> Event 327000. Running already for 188 seconds.  Present time: Wed Nov 27 16:08:27 2024
+>>> Event 328000. Running already for 188 seconds.  Present time: Wed Nov 27 16:08:27 2024
+>>> Event 329000. Running already for 189 seconds.  Present time: Wed Nov 27 16:08:28 2024
+>>> Event 330000. Running already for 190 seconds.  Present time: Wed Nov 27 16:08:29 2024
+>>> Event 331000. Running already for 190 seconds.  Present time: Wed Nov 27 16:08:29 2024
+>>> Event 332000. Running already for 191 seconds.  Present time: Wed Nov 27 16:08:30 2024
+>>> Event 333000. Running already for 191 seconds.  Present time: Wed Nov 27 16:08:30 2024
+>>> Event 334000. Running already for 192 seconds.  Present time: Wed Nov 27 16:08:31 2024
+>>> Event 335000. Running already for 192 seconds.  Present time: Wed Nov 27 16:08:31 2024
+>>> Event 336000. Running already for 193 seconds.  Present time: Wed Nov 27 16:08:32 2024
+>>> Event 337000. Running already for 193 seconds.  Present time: Wed Nov 27 16:08:32 2024
+>>> Event 338000. Running already for 195 seconds.  Present time: Wed Nov 27 16:08:34 2024
+>>> Event 339000. Running already for 196 seconds.  Present time: Wed Nov 27 16:08:35 2024
+>>> Event 340000. Running already for 196 seconds.  Present time: Wed Nov 27 16:08:35 2024
+>>> Event 341000. Running already for 197 seconds.  Present time: Wed Nov 27 16:08:36 2024
+>>> Event 342000. Running already for 197 seconds.  Present time: Wed Nov 27 16:08:36 2024
+>>> Event 343000. Running already for 198 seconds.  Present time: Wed Nov 27 16:08:37 2024
+>>> Event 344000. Running already for 198 seconds.  Present time: Wed Nov 27 16:08:37 2024
+>>> Event 345000. Running already for 199 seconds.  Present time: Wed Nov 27 16:08:38 2024
+>>> Event 346000. Running already for 199 seconds.  Present time: Wed Nov 27 16:08:38 2024
+>>> Event 347000. Running already for 200 seconds.  Present time: Wed Nov 27 16:08:39 2024
+>>> Event 348000. Running already for 200 seconds.  Present time: Wed Nov 27 16:08:39 2024
+>>> Event 349000. Running already for 201 seconds.  Present time: Wed Nov 27 16:08:40 2024
+>>> Event 350000. Running already for 201 seconds.  Present time: Wed Nov 27 16:08:40 2024
+>>> Event 351000. Running already for 202 seconds.  Present time: Wed Nov 27 16:08:41 2024
+>>> Event 352000. Running already for 203 seconds.  Present time: Wed Nov 27 16:08:42 2024
+>>> Event 353000. Running already for 203 seconds.  Present time: Wed Nov 27 16:08:42 2024
+>>> Event 354000. Running already for 204 seconds.  Present time: Wed Nov 27 16:08:43 2024
+>>> Event 355000. Running already for 204 seconds.  Present time: Wed Nov 27 16:08:43 2024
+>>> Event 356000. Running already for 205 seconds.  Present time: Wed Nov 27 16:08:44 2024
+>>> Event 357000. Running already for 205 seconds.  Present time: Wed Nov 27 16:08:44 2024
+>>> Event 358000. Running already for 206 seconds.  Present time: Wed Nov 27 16:08:45 2024
+>>> Event 359000. Running already for 206 seconds.  Present time: Wed Nov 27 16:08:45 2024
+>>> Event 360000. Running already for 207 seconds.  Present time: Wed Nov 27 16:08:46 2024
+>>> Event 361000. Running already for 207 seconds.  Present time: Wed Nov 27 16:08:46 2024
+>>> Event 362000. Running already for 208 seconds.  Present time: Wed Nov 27 16:08:47 2024
+>>> Event 363000. Running already for 208 seconds.  Present time: Wed Nov 27 16:08:47 2024
+>>> Event 364000. Running already for 210 seconds.  Present time: Wed Nov 27 16:08:49 2024
+>>> Event 365000. Running already for 211 seconds.  Present time: Wed Nov 27 16:08:50 2024
+>>> Event 366000. Running already for 211 seconds.  Present time: Wed Nov 27 16:08:50 2024
+>>> Event 367000. Running already for 212 seconds.  Present time: Wed Nov 27 16:08:51 2024
+>>> Event 368000. Running already for 213 seconds.  Present time: Wed Nov 27 16:08:52 2024
+>>> Event 369000. Running already for 213 seconds.  Present time: Wed Nov 27 16:08:52 2024
+>>> Event 370000. Running already for 214 seconds.  Present time: Wed Nov 27 16:08:53 2024
+>>> Event 371000. Running already for 214 seconds.  Present time: Wed Nov 27 16:08:53 2024
+>>> Event 372000. Running already for 215 seconds.  Present time: Wed Nov 27 16:08:54 2024
+>>> Event 373000. Running already for 215 seconds.  Present time: Wed Nov 27 16:08:54 2024
+>>> Event 374000. Running already for 216 seconds.  Present time: Wed Nov 27 16:08:55 2024
+>>> Event 375000. Running already for 216 seconds.  Present time: Wed Nov 27 16:08:55 2024
+>>> Event 376000. Running already for 217 seconds.  Present time: Wed Nov 27 16:08:56 2024
+>>> Event 377000. Running already for 217 seconds.  Present time: Wed Nov 27 16:08:56 2024
+>>> Event 378000. Running already for 218 seconds.  Present time: Wed Nov 27 16:08:57 2024
+>>> Event 379000. Running already for 218 seconds.  Present time: Wed Nov 27 16:08:57 2024
+>>> Event 380000. Running already for 219 seconds.  Present time: Wed Nov 27 16:08:58 2024
+>>> Event 381000. Running already for 219 seconds.  Present time: Wed Nov 27 16:08:58 2024
+>>> Event 382000. Running already for 220 seconds.  Present time: Wed Nov 27 16:08:59 2024
+>>> Event 383000. Running already for 220 seconds.  Present time: Wed Nov 27 16:08:59 2024
+>>> Event 384000. Running already for 221 seconds.  Present time: Wed Nov 27 16:09:00 2024
+>>> Event 385000. Running already for 221 seconds.  Present time: Wed Nov 27 16:09:00 2024
+>>> Event 386000. Running already for 222 seconds.  Present time: Wed Nov 27 16:09:01 2024
+>>> Event 387000. Running already for 222 seconds.  Present time: Wed Nov 27 16:09:01 2024
+>>> Event 388000. Running already for 223 seconds.  Present time: Wed Nov 27 16:09:02 2024
+>>> Event 389000. Running already for 223 seconds.  Present time: Wed Nov 27 16:09:02 2024
+>>> Event 390000. Running already for 225 seconds.  Present time: Wed Nov 27 16:09:04 2024
+>>> Event 391000. Running already for 226 seconds.  Present time: Wed Nov 27 16:09:05 2024
+>>> Event 392000. Running already for 226 seconds.  Present time: Wed Nov 27 16:09:05 2024
+>>> Event 393000. Running already for 227 seconds.  Present time: Wed Nov 27 16:09:06 2024
+>>> Event 394000. Running already for 227 seconds.  Present time: Wed Nov 27 16:09:06 2024
+>>> Event 395000. Running already for 228 seconds.  Present time: Wed Nov 27 16:09:07 2024
+>>> Event 396000. Running already for 228 seconds.  Present time: Wed Nov 27 16:09:07 2024
+>>> Event 397000. Running already for 229 seconds.  Present time: Wed Nov 27 16:09:08 2024
+>>> Event 398000. Running already for 230 seconds.  Present time: Wed Nov 27 16:09:09 2024
+>>> Event 399000. Running already for 230 seconds.  Present time: Wed Nov 27 16:09:09 2024
+>>> Event 400000. Running already for 231 seconds.  Present time: Wed Nov 27 16:09:10 2024
+>>> Event 401000. Running already for 231 seconds.  Present time: Wed Nov 27 16:09:10 2024
+>>> Event 402000. Running already for 232 seconds.  Present time: Wed Nov 27 16:09:11 2024
+>>> Event 403000. Running already for 232 seconds.  Present time: Wed Nov 27 16:09:11 2024
+>>> Event 404000. Running already for 233 seconds.  Present time: Wed Nov 27 16:09:12 2024
+>>> Event 405000. Running already for 233 seconds.  Present time: Wed Nov 27 16:09:12 2024
+>>> Event 406000. Running already for 234 seconds.  Present time: Wed Nov 27 16:09:13 2024
+>>> Event 407000. Running already for 234 seconds.  Present time: Wed Nov 27 16:09:13 2024
+>>> Event 408000. Running already for 235 seconds.  Present time: Wed Nov 27 16:09:14 2024
+>>> Event 409000. Running already for 235 seconds.  Present time: Wed Nov 27 16:09:14 2024
+>>> Event 410000. Running already for 236 seconds.  Present time: Wed Nov 27 16:09:15 2024
+>>> Event 411000. Running already for 236 seconds.  Present time: Wed Nov 27 16:09:15 2024
+>>> Event 412000. Running already for 237 seconds.  Present time: Wed Nov 27 16:09:16 2024
+>>> Event 413000. Running already for 237 seconds.  Present time: Wed Nov 27 16:09:16 2024
+>>> Event 414000. Running already for 238 seconds.  Present time: Wed Nov 27 16:09:17 2024
+>>> Event 415000. Running already for 238 seconds.  Present time: Wed Nov 27 16:09:17 2024
+>>> Event 416000. Running already for 240 seconds.  Present time: Wed Nov 27 16:09:19 2024
+>>> Event 417000. Running already for 241 seconds.  Present time: Wed Nov 27 16:09:20 2024
+>>> Event 418000. Running already for 241 seconds.  Present time: Wed Nov 27 16:09:20 2024
+>>> Event 419000. Running already for 242 seconds.  Present time: Wed Nov 27 16:09:21 2024
+>>> Event 420000. Running already for 243 seconds.  Present time: Wed Nov 27 16:09:22 2024
+>>> Event 421000. Running already for 243 seconds.  Present time: Wed Nov 27 16:09:22 2024
+>>> Event 422000. Running already for 244 seconds.  Present time: Wed Nov 27 16:09:23 2024
+>>> Event 423000. Running already for 244 seconds.  Present time: Wed Nov 27 16:09:23 2024
+>>> Event 424000. Running already for 245 seconds.  Present time: Wed Nov 27 16:09:24 2024
+>>> Event 425000. Running already for 245 seconds.  Present time: Wed Nov 27 16:09:24 2024
+>>> Event 426000. Running already for 246 seconds.  Present time: Wed Nov 27 16:09:25 2024
+>>> Event 427000. Running already for 246 seconds.  Present time: Wed Nov 27 16:09:25 2024
+>>> Event 428000. Running already for 247 seconds.  Present time: Wed Nov 27 16:09:26 2024
+>>> Event 429000. Running already for 247 seconds.  Present time: Wed Nov 27 16:09:26 2024
+>>> Event 430000. Running already for 248 seconds.  Present time: Wed Nov 27 16:09:27 2024
+>>> Event 431000. Running already for 248 seconds.  Present time: Wed Nov 27 16:09:27 2024
+>>> Event 432000. Running already for 249 seconds.  Present time: Wed Nov 27 16:09:28 2024
+>>> Event 433000. Running already for 249 seconds.  Present time: Wed Nov 27 16:09:28 2024
+>>> Event 434000. Running already for 250 seconds.  Present time: Wed Nov 27 16:09:29 2024
+>>> Event 435000. Running already for 250 seconds.  Present time: Wed Nov 27 16:09:29 2024
+>>> Event 436000. Running already for 251 seconds.  Present time: Wed Nov 27 16:09:30 2024
+>>> Event 437000. Running already for 251 seconds.  Present time: Wed Nov 27 16:09:30 2024
+>>> Event 438000. Running already for 252 seconds.  Present time: Wed Nov 27 16:09:31 2024
+>>> Event 439000. Running already for 252 seconds.  Present time: Wed Nov 27 16:09:31 2024
+>>> Event 440000. Running already for 253 seconds.  Present time: Wed Nov 27 16:09:32 2024
+>>> Event 441000. Running already for 253 seconds.  Present time: Wed Nov 27 16:09:32 2024
+>>> Event 442000. Running already for 255 seconds.  Present time: Wed Nov 27 16:09:34 2024
+>>> Event 443000. Running already for 256 seconds.  Present time: Wed Nov 27 16:09:35 2024
+>>> Event 444000. Running already for 257 seconds.  Present time: Wed Nov 27 16:09:36 2024
+>>> Event 445000. Running already for 257 seconds.  Present time: Wed Nov 27 16:09:36 2024
+>>> Event 446000. Running already for 258 seconds.  Present time: Wed Nov 27 16:09:37 2024
+>>> Event 447000. Running already for 258 seconds.  Present time: Wed Nov 27 16:09:37 2024
+>>> Event 448000. Running already for 259 seconds.  Present time: Wed Nov 27 16:09:38 2024
+>>> Event 449000. Running already for 259 seconds.  Present time: Wed Nov 27 16:09:38 2024
+>>> Event 450000. Running already for 260 seconds.  Present time: Wed Nov 27 16:09:39 2024
+>>> Event 451000. Running already for 260 seconds.  Present time: Wed Nov 27 16:09:39 2024
+>>> Event 452000. Running already for 261 seconds.  Present time: Wed Nov 27 16:09:40 2024
+>>> Event 453000. Running already for 261 seconds.  Present time: Wed Nov 27 16:09:40 2024
+>>> Event 454000. Running already for 262 seconds.  Present time: Wed Nov 27 16:09:41 2024
+>>> Event 455000. Running already for 262 seconds.  Present time: Wed Nov 27 16:09:41 2024
+>>> Event 456000. Running already for 263 seconds.  Present time: Wed Nov 27 16:09:42 2024
+>>> Event 457000. Running already for 263 seconds.  Present time: Wed Nov 27 16:09:42 2024
+>>> Event 458000. Running already for 264 seconds.  Present time: Wed Nov 27 16:09:43 2024
+>>> Event 459000. Running already for 264 seconds.  Present time: Wed Nov 27 16:09:43 2024
+>>> Event 460000. Running already for 265 seconds.  Present time: Wed Nov 27 16:09:44 2024
+>>> Event 461000. Running already for 265 seconds.  Present time: Wed Nov 27 16:09:44 2024
+>>> Event 462000. Running already for 266 seconds.  Present time: Wed Nov 27 16:09:45 2024
+>>> Event 463000. Running already for 266 seconds.  Present time: Wed Nov 27 16:09:45 2024
+>>> Event 464000. Running already for 267 seconds.  Present time: Wed Nov 27 16:09:46 2024
+>>> Event 465000. Running already for 267 seconds.  Present time: Wed Nov 27 16:09:46 2024
+>>> Event 466000. Running already for 268 seconds.  Present time: Wed Nov 27 16:09:47 2024
+>>> Event 467000. Running already for 268 seconds.  Present time: Wed Nov 27 16:09:47 2024
+>>> Event 468000. Running already for 270 seconds.  Present time: Wed Nov 27 16:09:49 2024
+>>> Event 469000. Running already for 271 seconds.  Present time: Wed Nov 27 16:09:50 2024
+>>> Event 470000. Running already for 272 seconds.  Present time: Wed Nov 27 16:09:51 2024
+>>> Event 471000. Running already for 272 seconds.  Present time: Wed Nov 27 16:09:51 2024
+>>> Event 472000. Running already for 273 seconds.  Present time: Wed Nov 27 16:09:52 2024
+>>> Event 473000. Running already for 273 seconds.  Present time: Wed Nov 27 16:09:52 2024
+>>> Event 474000. Running already for 274 seconds.  Present time: Wed Nov 27 16:09:53 2024
+>>> Event 475000. Running already for 274 seconds.  Present time: Wed Nov 27 16:09:53 2024
+>>> Event 476000. Running already for 275 seconds.  Present time: Wed Nov 27 16:09:54 2024
+>>> Event 477000. Running already for 275 seconds.  Present time: Wed Nov 27 16:09:54 2024
+>>> Event 478000. Running already for 276 seconds.  Present time: Wed Nov 27 16:09:55 2024
+>>> Event 479000. Running already for 276 seconds.  Present time: Wed Nov 27 16:09:55 2024
+>>> Event 480000. Running already for 277 seconds.  Present time: Wed Nov 27 16:09:56 2024
+>>> Event 481000. Running already for 277 seconds.  Present time: Wed Nov 27 16:09:56 2024
+>>> Event 482000. Running already for 278 seconds.  Present time: Wed Nov 27 16:09:57 2024
+>>> Event 483000. Running already for 278 seconds.  Present time: Wed Nov 27 16:09:57 2024
+>>> Event 484000. Running already for 279 seconds.  Present time: Wed Nov 27 16:09:58 2024
+>>> Event 485000. Running already for 279 seconds.  Present time: Wed Nov 27 16:09:58 2024
+>>> Event 486000. Running already for 280 seconds.  Present time: Wed Nov 27 16:09:59 2024
+>>> Event 487000. Running already for 280 seconds.  Present time: Wed Nov 27 16:09:59 2024
+>>> Event 488000. Running already for 281 seconds.  Present time: Wed Nov 27 16:10:00 2024
+>>> Event 489000. Running already for 281 seconds.  Present time: Wed Nov 27 16:10:00 2024
+>>> Event 490000. Running already for 282 seconds.  Present time: Wed Nov 27 16:10:01 2024
+>>> Event 491000. Running already for 282 seconds.  Present time: Wed Nov 27 16:10:01 2024
+>>> Event 492000. Running already for 283 seconds.  Present time: Wed Nov 27 16:10:02 2024
+>>> Event 493000. Running already for 284 seconds.  Present time: Wed Nov 27 16:10:03 2024
+>>> Event 494000. Running already for 286 seconds.  Present time: Wed Nov 27 16:10:05 2024
+>>> Event 495000. Running already for 286 seconds.  Present time: Wed Nov 27 16:10:05 2024
+>>> Event 496000. Running already for 287 seconds.  Present time: Wed Nov 27 16:10:06 2024
+>>> Event 497000. Running already for 287 seconds.  Present time: Wed Nov 27 16:10:06 2024
+>>> Event 498000. Running already for 288 seconds.  Present time: Wed Nov 27 16:10:07 2024
+>>> Event 499000. Running already for 288 seconds.  Present time: Wed Nov 27 16:10:07 2024
+>>> Event 500000. Running already for 289 seconds.  Present time: Wed Nov 27 16:10:08 2024
+>>> Event 501000. Running already for 289 seconds.  Present time: Wed Nov 27 16:10:08 2024
+>>> Event 502000. Running already for 290 seconds.  Present time: Wed Nov 27 16:10:09 2024
+>>> Event 503000. Running already for 290 seconds.  Present time: Wed Nov 27 16:10:09 2024
+>>> Event 504000. Running already for 291 seconds.  Present time: Wed Nov 27 16:10:10 2024
+>>> Event 505000. Running already for 291 seconds.  Present time: Wed Nov 27 16:10:10 2024
+>>> Event 506000. Running already for 292 seconds.  Present time: Wed Nov 27 16:10:11 2024
+>>> Event 507000. Running already for 292 seconds.  Present time: Wed Nov 27 16:10:11 2024
+>>> Event 508000. Running already for 293 seconds.  Present time: Wed Nov 27 16:10:12 2024
+>>> Event 509000. Running already for 293 seconds.  Present time: Wed Nov 27 16:10:12 2024
+>>> Event 510000. Running already for 294 seconds.  Present time: Wed Nov 27 16:10:13 2024
+>>> Event 511000. Running already for 294 seconds.  Present time: Wed Nov 27 16:10:13 2024
+>>> Event 512000. Running already for 295 seconds.  Present time: Wed Nov 27 16:10:14 2024
+>>> Event 513000. Running already for 295 seconds.  Present time: Wed Nov 27 16:10:14 2024
+>>> Event 514000. Running already for 296 seconds.  Present time: Wed Nov 27 16:10:15 2024
+>>> Event 515000. Running already for 297 seconds.  Present time: Wed Nov 27 16:10:16 2024
+>>> Event 516000. Running already for 297 seconds.  Present time: Wed Nov 27 16:10:16 2024
+>>> Event 517000. Running already for 298 seconds.  Present time: Wed Nov 27 16:10:17 2024
+>>> Event 518000. Running already for 298 seconds.  Present time: Wed Nov 27 16:10:17 2024
+>>> Event 519000. Running already for 299 seconds.  Present time: Wed Nov 27 16:10:18 2024
+>>> Event 520000. Running already for 301 seconds.  Present time: Wed Nov 27 16:10:20 2024
+>>> Event 521000. Running already for 301 seconds.  Present time: Wed Nov 27 16:10:20 2024
+>>> Event 522000. Running already for 302 seconds.  Present time: Wed Nov 27 16:10:21 2024
+>>> Event 523000. Running already for 302 seconds.  Present time: Wed Nov 27 16:10:21 2024
+>>> Event 524000. Running already for 303 seconds.  Present time: Wed Nov 27 16:10:22 2024
+>>> Event 525000. Running already for 303 seconds.  Present time: Wed Nov 27 16:10:22 2024
+>>> Event 526000. Running already for 304 seconds.  Present time: Wed Nov 27 16:10:23 2024
+>>> Event 527000. Running already for 304 seconds.  Present time: Wed Nov 27 16:10:23 2024
+>>> Event 528000. Running already for 305 seconds.  Present time: Wed Nov 27 16:10:24 2024
+>>> Event 529000. Running already for 305 seconds.  Present time: Wed Nov 27 16:10:24 2024
+>>> Event 530000. Running already for 306 seconds.  Present time: Wed Nov 27 16:10:25 2024
+>>> Event 531000. Running already for 307 seconds.  Present time: Wed Nov 27 16:10:26 2024
+>>> Event 532000. Running already for 307 seconds.  Present time: Wed Nov 27 16:10:26 2024
+>>> Event 533000. Running already for 308 seconds.  Present time: Wed Nov 27 16:10:27 2024
+>>> Event 534000. Running already for 308 seconds.  Present time: Wed Nov 27 16:10:27 2024
+>>> Event 535000. Running already for 309 seconds.  Present time: Wed Nov 27 16:10:28 2024
+>>> Event 536000. Running already for 309 seconds.  Present time: Wed Nov 27 16:10:28 2024
+>>> Event 537000. Running already for 310 seconds.  Present time: Wed Nov 27 16:10:29 2024
+>>> Event 538000. Running already for 310 seconds.  Present time: Wed Nov 27 16:10:29 2024
+>>> Event 539000. Running already for 311 seconds.  Present time: Wed Nov 27 16:10:30 2024
+>>> Event 540000. Running already for 311 seconds.  Present time: Wed Nov 27 16:10:30 2024
+>>> Event 541000. Running already for 312 seconds.  Present time: Wed Nov 27 16:10:31 2024
+>>> Event 542000. Running already for 312 seconds.  Present time: Wed Nov 27 16:10:31 2024
+>>> Event 543000. Running already for 313 seconds.  Present time: Wed Nov 27 16:10:32 2024
+>>> Event 544000. Running already for 313 seconds.  Present time: Wed Nov 27 16:10:32 2024
+>>> Event 545000. Running already for 314 seconds.  Present time: Wed Nov 27 16:10:33 2024
+>>> Event 546000. Running already for 316 seconds.  Present time: Wed Nov 27 16:10:35 2024
+>>> Event 547000. Running already for 316 seconds.  Present time: Wed Nov 27 16:10:35 2024
+>>> Event 548000. Running already for 317 seconds.  Present time: Wed Nov 27 16:10:36 2024
+>>> Event 549000. Running already for 317 seconds.  Present time: Wed Nov 27 16:10:36 2024
+>>> Event 550000. Running already for 318 seconds.  Present time: Wed Nov 27 16:10:37 2024
+>>> Event 551000. Running already for 318 seconds.  Present time: Wed Nov 27 16:10:37 2024
+>>> Event 552000. Running already for 319 seconds.  Present time: Wed Nov 27 16:10:38 2024
+>>> Event 553000. Running already for 319 seconds.  Present time: Wed Nov 27 16:10:38 2024
+>>> Event 554000. Running already for 320 seconds.  Present time: Wed Nov 27 16:10:39 2024
+>>> Event 555000. Running already for 321 seconds.  Present time: Wed Nov 27 16:10:40 2024
+>>> Event 556000. Running already for 321 seconds.  Present time: Wed Nov 27 16:10:40 2024
+>>> Event 557000. Running already for 322 seconds.  Present time: Wed Nov 27 16:10:41 2024
+>>> Event 558000. Running already for 322 seconds.  Present time: Wed Nov 27 16:10:41 2024
+>>> Event 559000. Running already for 323 seconds.  Present time: Wed Nov 27 16:10:42 2024
+>>> Event 560000. Running already for 323 seconds.  Present time: Wed Nov 27 16:10:42 2024
+>>> Event 561000. Running already for 324 seconds.  Present time: Wed Nov 27 16:10:43 2024
+>>> Event 562000. Running already for 324 seconds.  Present time: Wed Nov 27 16:10:43 2024
+>>> Event 563000. Running already for 325 seconds.  Present time: Wed Nov 27 16:10:44 2024
+>>> Event 564000. Running already for 325 seconds.  Present time: Wed Nov 27 16:10:44 2024
+>>> Event 565000. Running already for 326 seconds.  Present time: Wed Nov 27 16:10:45 2024
+>>> Event 566000. Running already for 326 seconds.  Present time: Wed Nov 27 16:10:45 2024
+>>> Event 567000. Running already for 327 seconds.  Present time: Wed Nov 27 16:10:46 2024
+>>> Event 568000. Running already for 327 seconds.  Present time: Wed Nov 27 16:10:46 2024
+>>> Event 569000. Running already for 328 seconds.  Present time: Wed Nov 27 16:10:47 2024
+>>> Event 570000. Running already for 328 seconds.  Present time: Wed Nov 27 16:10:47 2024
+>>> Event 571000. Running already for 329 seconds.  Present time: Wed Nov 27 16:10:48 2024
+>>> Event 572000. Running already for 331 seconds.  Present time: Wed Nov 27 16:10:50 2024
+>>> Event 573000. Running already for 331 seconds.  Present time: Wed Nov 27 16:10:50 2024
+>>> Event 574000. Running already for 332 seconds.  Present time: Wed Nov 27 16:10:51 2024
+>>> Event 575000. Running already for 333 seconds.  Present time: Wed Nov 27 16:10:52 2024
+>>> Event 576000. Running already for 333 seconds.  Present time: Wed Nov 27 16:10:52 2024
+>>> Event 577000. Running already for 334 seconds.  Present time: Wed Nov 27 16:10:53 2024
+>>> Event 578000. Running already for 334 seconds.  Present time: Wed Nov 27 16:10:53 2024
+>>> Event 579000. Running already for 335 seconds.  Present time: Wed Nov 27 16:10:54 2024
+>>> Event 580000. Running already for 335 seconds.  Present time: Wed Nov 27 16:10:54 2024
+>>> Event 581000. Running already for 336 seconds.  Present time: Wed Nov 27 16:10:55 2024
+>>> Event 582000. Running already for 336 seconds.  Present time: Wed Nov 27 16:10:55 2024
+>>> Event 583000. Running already for 337 seconds.  Present time: Wed Nov 27 16:10:56 2024
+>>> Event 584000. Running already for 337 seconds.  Present time: Wed Nov 27 16:10:56 2024
+>>> Event 585000. Running already for 338 seconds.  Present time: Wed Nov 27 16:10:57 2024
+>>> Event 586000. Running already for 338 seconds.  Present time: Wed Nov 27 16:10:57 2024
+>>> Event 587000. Running already for 339 seconds.  Present time: Wed Nov 27 16:10:58 2024
+>>> Event 588000. Running already for 339 seconds.  Present time: Wed Nov 27 16:10:58 2024
+>>> Event 589000. Running already for 340 seconds.  Present time: Wed Nov 27 16:10:59 2024
+>>> Event 590000. Running already for 340 seconds.  Present time: Wed Nov 27 16:10:59 2024
+>>> Event 591000. Running already for 341 seconds.  Present time: Wed Nov 27 16:11:00 2024
+>>> Event 592000. Running already for 341 seconds.  Present time: Wed Nov 27 16:11:00 2024
+!!!WARNING!!! musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "B11" deposited energy.  (First time occurrence)
+>>> Event 593000. Running already for 342 seconds.  Present time: Wed Nov 27 16:11:01 2024
+>>> Event 594000. Running already for 342 seconds.  Present time: Wed Nov 27 16:11:01 2024
+>>> Event 595000. Running already for 343 seconds.  Present time: Wed Nov 27 16:11:02 2024
+>>> Event 596000. Running already for 343 seconds.  Present time: Wed Nov 27 16:11:02 2024
+>>> Event 597000. Running already for 345 seconds.  Present time: Wed Nov 27 16:11:04 2024
+>>> Event 598000. Running already for 346 seconds.  Present time: Wed Nov 27 16:11:05 2024
+>>> Event 599000. Running already for 346 seconds.  Present time: Wed Nov 27 16:11:05 2024
+>>> Event 600000. Running already for 347 seconds.  Present time: Wed Nov 27 16:11:06 2024
+>>> Event 601000. Running already for 348 seconds.  Present time: Wed Nov 27 16:11:07 2024
+>>> Event 602000. Running already for 348 seconds.  Present time: Wed Nov 27 16:11:07 2024
+>>> Event 603000. Running already for 349 seconds.  Present time: Wed Nov 27 16:11:08 2024
+>>> Event 604000. Running already for 349 seconds.  Present time: Wed Nov 27 16:11:08 2024
+>>> Event 605000. Running already for 350 seconds.  Present time: Wed Nov 27 16:11:09 2024
+>>> Event 606000. Running already for 350 seconds.  Present time: Wed Nov 27 16:11:09 2024
+>>> Event 607000. Running already for 351 seconds.  Present time: Wed Nov 27 16:11:10 2024
+>>> Event 608000. Running already for 351 seconds.  Present time: Wed Nov 27 16:11:10 2024
+>>> Event 609000. Running already for 352 seconds.  Present time: Wed Nov 27 16:11:11 2024
+>>> Event 610000. Running already for 352 seconds.  Present time: Wed Nov 27 16:11:11 2024
+>>> Event 611000. Running already for 353 seconds.  Present time: Wed Nov 27 16:11:12 2024
+>>> Event 612000. Running already for 353 seconds.  Present time: Wed Nov 27 16:11:12 2024
+>>> Event 613000. Running already for 354 seconds.  Present time: Wed Nov 27 16:11:13 2024
+>>> Event 614000. Running already for 354 seconds.  Present time: Wed Nov 27 16:11:13 2024
+>>> Event 615000. Running already for 355 seconds.  Present time: Wed Nov 27 16:11:14 2024
+>>> Event 616000. Running already for 355 seconds.  Present time: Wed Nov 27 16:11:14 2024
+>>> Event 617000. Running already for 356 seconds.  Present time: Wed Nov 27 16:11:15 2024
+>>> Event 618000. Running already for 356 seconds.  Present time: Wed Nov 27 16:11:15 2024
+>>> Event 619000. Running already for 357 seconds.  Present time: Wed Nov 27 16:11:16 2024
+>>> Event 620000. Running already for 357 seconds.  Present time: Wed Nov 27 16:11:16 2024
+>>> Event 621000. Running already for 358 seconds.  Present time: Wed Nov 27 16:11:17 2024
+>>> Event 622000. Running already for 359 seconds.  Present time: Wed Nov 27 16:11:18 2024
+>>> Event 623000. Running already for 361 seconds.  Present time: Wed Nov 27 16:11:20 2024
+>>> Event 624000. Running already for 361 seconds.  Present time: Wed Nov 27 16:11:20 2024
+>>> Event 625000. Running already for 362 seconds.  Present time: Wed Nov 27 16:11:21 2024
+>>> Event 626000. Running already for 362 seconds.  Present time: Wed Nov 27 16:11:21 2024
+>>> Event 627000. Running already for 363 seconds.  Present time: Wed Nov 27 16:11:22 2024
+>>> Event 628000. Running already for 363 seconds.  Present time: Wed Nov 27 16:11:22 2024
+>>> Event 629000. Running already for 364 seconds.  Present time: Wed Nov 27 16:11:23 2024
+>>> Event 630000. Running already for 364 seconds.  Present time: Wed Nov 27 16:11:23 2024
+>>> Event 631000. Running already for 365 seconds.  Present time: Wed Nov 27 16:11:24 2024
+>>> Event 632000. Running already for 365 seconds.  Present time: Wed Nov 27 16:11:24 2024
+>>> Event 633000. Running already for 366 seconds.  Present time: Wed Nov 27 16:11:25 2024
+>>> Event 634000. Running already for 366 seconds.  Present time: Wed Nov 27 16:11:25 2024
+!!!WARNING!!! musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "pi-" deposited energy.  (First time occurrence)
+>>> Event 635000. Running already for 367 seconds.  Present time: Wed Nov 27 16:11:26 2024
+>>> Event 636000. Running already for 367 seconds.  Present time: Wed Nov 27 16:11:26 2024
+>>> Event 637000. Running already for 368 seconds.  Present time: Wed Nov 27 16:11:27 2024
+>>> Event 638000. Running already for 368 seconds.  Present time: Wed Nov 27 16:11:27 2024
+>>> Event 639000. Running already for 369 seconds.  Present time: Wed Nov 27 16:11:28 2024
+>>> Event 640000. Running already for 369 seconds.  Present time: Wed Nov 27 16:11:28 2024
+>>> Event 641000. Running already for 370 seconds.  Present time: Wed Nov 27 16:11:29 2024
+>>> Event 642000. Running already for 370 seconds.  Present time: Wed Nov 27 16:11:29 2024
+>>> Event 643000. Running already for 371 seconds.  Present time: Wed Nov 27 16:11:30 2024
+>>> Event 644000. Running already for 372 seconds.  Present time: Wed Nov 27 16:11:31 2024
+>>> Event 645000. Running already for 372 seconds.  Present time: Wed Nov 27 16:11:31 2024
+>>> Event 646000. Running already for 373 seconds.  Present time: Wed Nov 27 16:11:32 2024
+>>> Event 647000. Running already for 373 seconds.  Present time: Wed Nov 27 16:11:32 2024
+>>> Event 648000. Running already for 374 seconds.  Present time: Wed Nov 27 16:11:33 2024
+>>> Event 649000. Running already for 376 seconds.  Present time: Wed Nov 27 16:11:35 2024
+>>> Event 650000. Running already for 376 seconds.  Present time: Wed Nov 27 16:11:35 2024
+>>> Event 651000. Running already for 377 seconds.  Present time: Wed Nov 27 16:11:36 2024
+>>> Event 652000. Running already for 377 seconds.  Present time: Wed Nov 27 16:11:36 2024
+>>> Event 653000. Running already for 378 seconds.  Present time: Wed Nov 27 16:11:37 2024
+>>> Event 654000. Running already for 378 seconds.  Present time: Wed Nov 27 16:11:37 2024
+>>> Event 655000. Running already for 379 seconds.  Present time: Wed Nov 27 16:11:38 2024
+>>> Event 656000. Running already for 379 seconds.  Present time: Wed Nov 27 16:11:38 2024
+>>> Event 657000. Running already for 380 seconds.  Present time: Wed Nov 27 16:11:39 2024
+>>> Event 658000. Running already for 380 seconds.  Present time: Wed Nov 27 16:11:39 2024
+>>> Event 659000. Running already for 381 seconds.  Present time: Wed Nov 27 16:11:40 2024
+>>> Event 660000. Running already for 381 seconds.  Present time: Wed Nov 27 16:11:40 2024
+>>> Event 661000. Running already for 382 seconds.  Present time: Wed Nov 27 16:11:41 2024
+>>> Event 662000. Running already for 382 seconds.  Present time: Wed Nov 27 16:11:41 2024
+>>> Event 663000. Running already for 383 seconds.  Present time: Wed Nov 27 16:11:42 2024
+>>> Event 664000. Running already for 383 seconds.  Present time: Wed Nov 27 16:11:42 2024
+>>> Event 665000. Running already for 384 seconds.  Present time: Wed Nov 27 16:11:43 2024
+>>> Event 666000. Running already for 384 seconds.  Present time: Wed Nov 27 16:11:43 2024
+>>> Event 667000. Running already for 385 seconds.  Present time: Wed Nov 27 16:11:44 2024
+>>> Event 668000. Running already for 386 seconds.  Present time: Wed Nov 27 16:11:45 2024
+>>> Event 669000. Running already for 386 seconds.  Present time: Wed Nov 27 16:11:45 2024
+>>> Event 670000. Running already for 387 seconds.  Present time: Wed Nov 27 16:11:46 2024
+>>> Event 671000. Running already for 387 seconds.  Present time: Wed Nov 27 16:11:46 2024
+>>> Event 672000. Running already for 388 seconds.  Present time: Wed Nov 27 16:11:47 2024
+>>> Event 673000. Running already for 388 seconds.  Present time: Wed Nov 27 16:11:47 2024
+>>> Event 674000. Running already for 389 seconds.  Present time: Wed Nov 27 16:11:48 2024
+>>> Event 675000. Running already for 391 seconds.  Present time: Wed Nov 27 16:11:50 2024
+>>> Event 676000. Running already for 391 seconds.  Present time: Wed Nov 27 16:11:50 2024
+>>> Event 677000. Running already for 392 seconds.  Present time: Wed Nov 27 16:11:51 2024
+>>> Event 678000. Running already for 392 seconds.  Present time: Wed Nov 27 16:11:51 2024
+>>> Event 679000. Running already for 393 seconds.  Present time: Wed Nov 27 16:11:52 2024
+>>> Event 680000. Running already for 393 seconds.  Present time: Wed Nov 27 16:11:52 2024
+>>> Event 681000. Running already for 394 seconds.  Present time: Wed Nov 27 16:11:53 2024
+>>> Event 682000. Running already for 394 seconds.  Present time: Wed Nov 27 16:11:53 2024
+>>> Event 683000. Running already for 395 seconds.  Present time: Wed Nov 27 16:11:54 2024
+>>> Event 684000. Running already for 395 seconds.  Present time: Wed Nov 27 16:11:54 2024
+>>> Event 685000. Running already for 396 seconds.  Present time: Wed Nov 27 16:11:55 2024
+>>> Event 686000. Running already for 396 seconds.  Present time: Wed Nov 27 16:11:55 2024
+>>> Event 687000. Running already for 397 seconds.  Present time: Wed Nov 27 16:11:56 2024
+>>> Event 688000. Running already for 397 seconds.  Present time: Wed Nov 27 16:11:56 2024
+>>> Event 689000. Running already for 398 seconds.  Present time: Wed Nov 27 16:11:57 2024
+>>> Event 690000. Running already for 398 seconds.  Present time: Wed Nov 27 16:11:57 2024
+>>> Event 691000. Running already for 399 seconds.  Present time: Wed Nov 27 16:11:58 2024
+>>> Event 692000. Running already for 400 seconds.  Present time: Wed Nov 27 16:11:59 2024
+>>> Event 693000. Running already for 400 seconds.  Present time: Wed Nov 27 16:11:59 2024
+>>> Event 694000. Running already for 401 seconds.  Present time: Wed Nov 27 16:12:00 2024
+>>> Event 695000. Running already for 401 seconds.  Present time: Wed Nov 27 16:12:00 2024
+>>> Event 696000. Running already for 402 seconds.  Present time: Wed Nov 27 16:12:01 2024
+>>> Event 697000. Running already for 402 seconds.  Present time: Wed Nov 27 16:12:01 2024
+>>> Event 698000. Running already for 403 seconds.  Present time: Wed Nov 27 16:12:02 2024
+>>> Event 699000. Running already for 403 seconds.  Present time: Wed Nov 27 16:12:02 2024
+>>> Event 700000. Running already for 404 seconds.  Present time: Wed Nov 27 16:12:03 2024
+>>> Event 701000. Running already for 406 seconds.  Present time: Wed Nov 27 16:12:05 2024
+>>> Event 702000. Running already for 406 seconds.  Present time: Wed Nov 27 16:12:05 2024
+>>> Event 703000. Running already for 407 seconds.  Present time: Wed Nov 27 16:12:06 2024
+>>> Event 704000. Running already for 407 seconds.  Present time: Wed Nov 27 16:12:06 2024
+>>> Event 705000. Running already for 408 seconds.  Present time: Wed Nov 27 16:12:07 2024
+>>> Event 706000. Running already for 408 seconds.  Present time: Wed Nov 27 16:12:07 2024
+>>> Event 707000. Running already for 409 seconds.  Present time: Wed Nov 27 16:12:08 2024
+>>> Event 708000. Running already for 409 seconds.  Present time: Wed Nov 27 16:12:08 2024
+>>> Event 709000. Running already for 410 seconds.  Present time: Wed Nov 27 16:12:09 2024
+>>> Event 710000. Running already for 410 seconds.  Present time: Wed Nov 27 16:12:09 2024
+>>> Event 711000. Running already for 411 seconds.  Present time: Wed Nov 27 16:12:10 2024
+>>> Event 712000. Running already for 411 seconds.  Present time: Wed Nov 27 16:12:10 2024
+>>> Event 713000. Running already for 412 seconds.  Present time: Wed Nov 27 16:12:11 2024
+>>> Event 714000. Running already for 412 seconds.  Present time: Wed Nov 27 16:12:11 2024
+>>> Event 715000. Running already for 413 seconds.  Present time: Wed Nov 27 16:12:12 2024
+>>> Event 716000. Running already for 414 seconds.  Present time: Wed Nov 27 16:12:13 2024
+>>> Event 717000. Running already for 414 seconds.  Present time: Wed Nov 27 16:12:13 2024
+>>> Event 718000. Running already for 415 seconds.  Present time: Wed Nov 27 16:12:14 2024
+>>> Event 719000. Running already for 415 seconds.  Present time: Wed Nov 27 16:12:14 2024
+>>> Event 720000. Running already for 416 seconds.  Present time: Wed Nov 27 16:12:15 2024
+>>> Event 721000. Running already for 416 seconds.  Present time: Wed Nov 27 16:12:15 2024
+>>> Event 722000. Running already for 417 seconds.  Present time: Wed Nov 27 16:12:16 2024
+>>> Event 723000. Running already for 417 seconds.  Present time: Wed Nov 27 16:12:16 2024
+>>> Event 724000. Running already for 418 seconds.  Present time: Wed Nov 27 16:12:17 2024
+>>> Event 725000. Running already for 418 seconds.  Present time: Wed Nov 27 16:12:17 2024
+>>> Event 726000. Running already for 419 seconds.  Present time: Wed Nov 27 16:12:18 2024
+>>> Event 727000. Running already for 421 seconds.  Present time: Wed Nov 27 16:12:20 2024
+>>> Event 728000. Running already for 421 seconds.  Present time: Wed Nov 27 16:12:20 2024
+>>> Event 729000. Running already for 422 seconds.  Present time: Wed Nov 27 16:12:21 2024
+>>> Event 730000. Running already for 422 seconds.  Present time: Wed Nov 27 16:12:21 2024
+>>> Event 731000. Running already for 423 seconds.  Present time: Wed Nov 27 16:12:22 2024
+>>> Event 732000. Running already for 423 seconds.  Present time: Wed Nov 27 16:12:22 2024
+>>> Event 733000. Running already for 424 seconds.  Present time: Wed Nov 27 16:12:23 2024
+>>> Event 734000. Running already for 424 seconds.  Present time: Wed Nov 27 16:12:23 2024
+>>> Event 735000. Running already for 425 seconds.  Present time: Wed Nov 27 16:12:24 2024
+>>> Event 736000. Running already for 425 seconds.  Present time: Wed Nov 27 16:12:24 2024
+>>> Event 737000. Running already for 426 seconds.  Present time: Wed Nov 27 16:12:25 2024
+>>> Event 738000. Running already for 426 seconds.  Present time: Wed Nov 27 16:12:25 2024
+>>> Event 739000. Running already for 427 seconds.  Present time: Wed Nov 27 16:12:26 2024
+>>> Event 740000. Running already for 428 seconds.  Present time: Wed Nov 27 16:12:27 2024
+>>> Event 741000. Running already for 428 seconds.  Present time: Wed Nov 27 16:12:27 2024
+>>> Event 742000. Running already for 429 seconds.  Present time: Wed Nov 27 16:12:28 2024
+>>> Event 743000. Running already for 429 seconds.  Present time: Wed Nov 27 16:12:28 2024
+>>> Event 744000. Running already for 430 seconds.  Present time: Wed Nov 27 16:12:29 2024
+>>> Event 745000. Running already for 430 seconds.  Present time: Wed Nov 27 16:12:29 2024
+>>> Event 746000. Running already for 431 seconds.  Present time: Wed Nov 27 16:12:30 2024
+>>> Event 747000. Running already for 431 seconds.  Present time: Wed Nov 27 16:12:30 2024
+>>> Event 748000. Running already for 432 seconds.  Present time: Wed Nov 27 16:12:31 2024
+>>> Event 749000. Running already for 432 seconds.  Present time: Wed Nov 27 16:12:31 2024
+>>> Event 750000. Running already for 433 seconds.  Present time: Wed Nov 27 16:12:32 2024
+>>> Event 751000. Running already for 433 seconds.  Present time: Wed Nov 27 16:12:32 2024
+>>> Event 752000. Running already for 434 seconds.  Present time: Wed Nov 27 16:12:33 2024
+>>> Event 753000. Running already for 436 seconds.  Present time: Wed Nov 27 16:12:35 2024
+>>> Event 754000. Running already for 436 seconds.  Present time: Wed Nov 27 16:12:35 2024
+>>> Event 755000. Running already for 437 seconds.  Present time: Wed Nov 27 16:12:36 2024
+>>> Event 756000. Running already for 437 seconds.  Present time: Wed Nov 27 16:12:36 2024
+>>> Event 757000. Running already for 438 seconds.  Present time: Wed Nov 27 16:12:37 2024
+>>> Event 758000. Running already for 438 seconds.  Present time: Wed Nov 27 16:12:37 2024
+>>> Event 759000. Running already for 439 seconds.  Present time: Wed Nov 27 16:12:38 2024
+>>> Event 760000. Running already for 439 seconds.  Present time: Wed Nov 27 16:12:38 2024
+>>> Event 761000. Running already for 440 seconds.  Present time: Wed Nov 27 16:12:39 2024
+>>> Event 762000. Running already for 440 seconds.  Present time: Wed Nov 27 16:12:39 2024
+>>> Event 763000. Running already for 441 seconds.  Present time: Wed Nov 27 16:12:40 2024
+>>> Event 764000. Running already for 442 seconds.  Present time: Wed Nov 27 16:12:41 2024
+>>> Event 765000. Running already for 442 seconds.  Present time: Wed Nov 27 16:12:41 2024
+>>> Event 766000. Running already for 443 seconds.  Present time: Wed Nov 27 16:12:42 2024
+>>> Event 767000. Running already for 443 seconds.  Present time: Wed Nov 27 16:12:42 2024
+>>> Event 768000. Running already for 444 seconds.  Present time: Wed Nov 27 16:12:43 2024
+>>> Event 769000. Running already for 444 seconds.  Present time: Wed Nov 27 16:12:43 2024
+>>> Event 770000. Running already for 445 seconds.  Present time: Wed Nov 27 16:12:44 2024
+>>> Event 771000. Running already for 445 seconds.  Present time: Wed Nov 27 16:12:44 2024
+>>> Event 772000. Running already for 446 seconds.  Present time: Wed Nov 27 16:12:45 2024
+>>> Event 773000. Running already for 446 seconds.  Present time: Wed Nov 27 16:12:45 2024
+>>> Event 774000. Running already for 447 seconds.  Present time: Wed Nov 27 16:12:46 2024
+>>> Event 775000. Running already for 447 seconds.  Present time: Wed Nov 27 16:12:46 2024
+>>> Event 776000. Running already for 448 seconds.  Present time: Wed Nov 27 16:12:47 2024
+>>> Event 777000. Running already for 448 seconds.  Present time: Wed Nov 27 16:12:47 2024
+>>> Event 778000. Running already for 449 seconds.  Present time: Wed Nov 27 16:12:48 2024
+>>> Event 779000. Running already for 451 seconds.  Present time: Wed Nov 27 16:12:50 2024
+>>> Event 780000. Running already for 451 seconds.  Present time: Wed Nov 27 16:12:50 2024
+>>> Event 781000. Running already for 452 seconds.  Present time: Wed Nov 27 16:12:51 2024
+>>> Event 782000. Running already for 452 seconds.  Present time: Wed Nov 27 16:12:51 2024
+>>> Event 783000. Running already for 453 seconds.  Present time: Wed Nov 27 16:12:52 2024
+>>> Event 784000. Running already for 453 seconds.  Present time: Wed Nov 27 16:12:52 2024
+>>> Event 785000. Running already for 454 seconds.  Present time: Wed Nov 27 16:12:53 2024
+>>> Event 786000. Running already for 455 seconds.  Present time: Wed Nov 27 16:12:54 2024
+>>> Event 787000. Running already for 455 seconds.  Present time: Wed Nov 27 16:12:54 2024
+>>> Event 788000. Running already for 456 seconds.  Present time: Wed Nov 27 16:12:55 2024
+>>> Event 789000. Running already for 456 seconds.  Present time: Wed Nov 27 16:12:55 2024
+>>> Event 790000. Running already for 457 seconds.  Present time: Wed Nov 27 16:12:56 2024
+>>> Event 791000. Running already for 457 seconds.  Present time: Wed Nov 27 16:12:56 2024
+>>> Event 792000. Running already for 458 seconds.  Present time: Wed Nov 27 16:12:57 2024
+>>> Event 793000. Running already for 458 seconds.  Present time: Wed Nov 27 16:12:57 2024
+>>> Event 794000. Running already for 459 seconds.  Present time: Wed Nov 27 16:12:58 2024
+>>> Event 795000. Running already for 459 seconds.  Present time: Wed Nov 27 16:12:58 2024
+>>> Event 796000. Running already for 460 seconds.  Present time: Wed Nov 27 16:12:59 2024
+>>> Event 797000. Running already for 460 seconds.  Present time: Wed Nov 27 16:12:59 2024
+>>> Event 798000. Running already for 461 seconds.  Present time: Wed Nov 27 16:13:00 2024
+>>> Event 799000. Running already for 461 seconds.  Present time: Wed Nov 27 16:13:00 2024
+>>> Event 800000. Running already for 462 seconds.  Present time: Wed Nov 27 16:13:01 2024
+>>> Event 801000. Running already for 462 seconds.  Present time: Wed Nov 27 16:13:01 2024
+>>> Event 802000. Running already for 463 seconds.  Present time: Wed Nov 27 16:13:02 2024
+>>> Event 803000. Running already for 463 seconds.  Present time: Wed Nov 27 16:13:02 2024
+>>> Event 804000. Running already for 464 seconds.  Present time: Wed Nov 27 16:13:03 2024
+>>> Event 805000. Running already for 466 seconds.  Present time: Wed Nov 27 16:13:05 2024
+>>> Event 806000. Running already for 466 seconds.  Present time: Wed Nov 27 16:13:05 2024
+>>> Event 807000. Running already for 467 seconds.  Present time: Wed Nov 27 16:13:06 2024
+>>> Event 808000. Running already for 467 seconds.  Present time: Wed Nov 27 16:13:06 2024
+>>> Event 809000. Running already for 468 seconds.  Present time: Wed Nov 27 16:13:07 2024
+>>> Event 810000. Running already for 468 seconds.  Present time: Wed Nov 27 16:13:07 2024
+>>> Event 811000. Running already for 469 seconds.  Present time: Wed Nov 27 16:13:08 2024
+>>> Event 812000. Running already for 469 seconds.  Present time: Wed Nov 27 16:13:08 2024
+>>> Event 813000. Running already for 470 seconds.  Present time: Wed Nov 27 16:13:09 2024
+>>> Event 814000. Running already for 471 seconds.  Present time: Wed Nov 27 16:13:10 2024
+>>> Event 815000. Running already for 471 seconds.  Present time: Wed Nov 27 16:13:10 2024
+>>> Event 816000. Running already for 472 seconds.  Present time: Wed Nov 27 16:13:11 2024
+>>> Event 817000. Running already for 472 seconds.  Present time: Wed Nov 27 16:13:11 2024
+>>> Event 818000. Running already for 473 seconds.  Present time: Wed Nov 27 16:13:12 2024
+>>> Event 819000. Running already for 473 seconds.  Present time: Wed Nov 27 16:13:12 2024
+>>> Event 820000. Running already for 474 seconds.  Present time: Wed Nov 27 16:13:13 2024
+>>> Event 821000. Running already for 474 seconds.  Present time: Wed Nov 27 16:13:13 2024
+>>> Event 822000. Running already for 475 seconds.  Present time: Wed Nov 27 16:13:14 2024
+>>> Event 823000. Running already for 475 seconds.  Present time: Wed Nov 27 16:13:14 2024
+>>> Event 824000. Running already for 476 seconds.  Present time: Wed Nov 27 16:13:15 2024
+>>> Event 825000. Running already for 476 seconds.  Present time: Wed Nov 27 16:13:15 2024
+>>> Event 826000. Running already for 477 seconds.  Present time: Wed Nov 27 16:13:16 2024
+>>> Event 827000. Running already for 477 seconds.  Present time: Wed Nov 27 16:13:16 2024
+>>> Event 828000. Running already for 478 seconds.  Present time: Wed Nov 27 16:13:17 2024
+>>> Event 829000. Running already for 478 seconds.  Present time: Wed Nov 27 16:13:17 2024
+>>> Event 830000. Running already for 479 seconds.  Present time: Wed Nov 27 16:13:18 2024
+>>> Event 831000. Running already for 481 seconds.  Present time: Wed Nov 27 16:13:20 2024
+>>> Event 832000. Running already for 482 seconds.  Present time: Wed Nov 27 16:13:21 2024
+>>> Event 833000. Running already for 482 seconds.  Present time: Wed Nov 27 16:13:21 2024
+>>> Event 834000. Running already for 483 seconds.  Present time: Wed Nov 27 16:13:22 2024
+>>> Event 835000. Running already for 483 seconds.  Present time: Wed Nov 27 16:13:22 2024
+>>> Event 836000. Running already for 484 seconds.  Present time: Wed Nov 27 16:13:23 2024
+>>> Event 837000. Running already for 484 seconds.  Present time: Wed Nov 27 16:13:23 2024
+>>> Event 838000. Running already for 485 seconds.  Present time: Wed Nov 27 16:13:24 2024
+>>> Event 839000. Running already for 485 seconds.  Present time: Wed Nov 27 16:13:24 2024
+>>> Event 840000. Running already for 486 seconds.  Present time: Wed Nov 27 16:13:25 2024
+>>> Event 841000. Running already for 486 seconds.  Present time: Wed Nov 27 16:13:25 2024
+>>> Event 842000. Running already for 487 seconds.  Present time: Wed Nov 27 16:13:26 2024
+>>> Event 843000. Running already for 487 seconds.  Present time: Wed Nov 27 16:13:26 2024
+>>> Event 844000. Running already for 488 seconds.  Present time: Wed Nov 27 16:13:27 2024
+>>> Event 845000. Running already for 488 seconds.  Present time: Wed Nov 27 16:13:27 2024
+>>> Event 846000. Running already for 489 seconds.  Present time: Wed Nov 27 16:13:28 2024
+>>> Event 847000. Running already for 489 seconds.  Present time: Wed Nov 27 16:13:28 2024
+>>> Event 848000. Running already for 490 seconds.  Present time: Wed Nov 27 16:13:29 2024
+>>> Event 849000. Running already for 490 seconds.  Present time: Wed Nov 27 16:13:29 2024
+>>> Event 850000. Running already for 491 seconds.  Present time: Wed Nov 27 16:13:30 2024
+>>> Event 851000. Running already for 491 seconds.  Present time: Wed Nov 27 16:13:30 2024
+>>> Event 852000. Running already for 492 seconds.  Present time: Wed Nov 27 16:13:31 2024
+>>> Event 853000. Running already for 492 seconds.  Present time: Wed Nov 27 16:13:31 2024
+>>> Event 854000. Running already for 493 seconds.  Present time: Wed Nov 27 16:13:32 2024
+>>> Event 855000. Running already for 494 seconds.  Present time: Wed Nov 27 16:13:33 2024
+>>> Event 856000. Running already for 494 seconds.  Present time: Wed Nov 27 16:13:33 2024
+>>> Event 857000. Running already for 496 seconds.  Present time: Wed Nov 27 16:13:35 2024
+>>> Event 858000. Running already for 497 seconds.  Present time: Wed Nov 27 16:13:36 2024
+>>> Event 859000. Running already for 497 seconds.  Present time: Wed Nov 27 16:13:36 2024
+>>> Event 860000. Running already for 498 seconds.  Present time: Wed Nov 27 16:13:37 2024
+>>> Event 861000. Running already for 498 seconds.  Present time: Wed Nov 27 16:13:37 2024
+>>> Event 862000. Running already for 499 seconds.  Present time: Wed Nov 27 16:13:38 2024
+>>> Event 863000. Running already for 499 seconds.  Present time: Wed Nov 27 16:13:38 2024
+>>> Event 864000. Running already for 500 seconds.  Present time: Wed Nov 27 16:13:39 2024
+>>> Event 865000. Running already for 500 seconds.  Present time: Wed Nov 27 16:13:39 2024
+>>> Event 866000. Running already for 501 seconds.  Present time: Wed Nov 27 16:13:40 2024
+>>> Event 867000. Running already for 501 seconds.  Present time: Wed Nov 27 16:13:40 2024
+>>> Event 868000. Running already for 502 seconds.  Present time: Wed Nov 27 16:13:41 2024
+>>> Event 869000. Running already for 502 seconds.  Present time: Wed Nov 27 16:13:41 2024
+>>> Event 870000. Running already for 503 seconds.  Present time: Wed Nov 27 16:13:42 2024
+>>> Event 871000. Running already for 503 seconds.  Present time: Wed Nov 27 16:13:42 2024
+>>> Event 872000. Running already for 504 seconds.  Present time: Wed Nov 27 16:13:43 2024
+>>> Event 873000. Running already for 504 seconds.  Present time: Wed Nov 27 16:13:43 2024
+>>> Event 874000. Running already for 505 seconds.  Present time: Wed Nov 27 16:13:44 2024
+>>> Event 875000. Running already for 505 seconds.  Present time: Wed Nov 27 16:13:44 2024
+>>> Event 876000. Running already for 506 seconds.  Present time: Wed Nov 27 16:13:45 2024
+>>> Event 877000. Running already for 506 seconds.  Present time: Wed Nov 27 16:13:45 2024
+>>> Event 878000. Running already for 507 seconds.  Present time: Wed Nov 27 16:13:46 2024
+>>> Event 879000. Running already for 507 seconds.  Present time: Wed Nov 27 16:13:46 2024
+>>> Event 880000. Running already for 508 seconds.  Present time: Wed Nov 27 16:13:47 2024
+>>> Event 881000. Running already for 509 seconds.  Present time: Wed Nov 27 16:13:48 2024
+>>> Event 882000. Running already for 509 seconds.  Present time: Wed Nov 27 16:13:48 2024
+>>> Event 883000. Running already for 511 seconds.  Present time: Wed Nov 27 16:13:50 2024
+>>> Event 884000. Running already for 512 seconds.  Present time: Wed Nov 27 16:13:51 2024
+>>> Event 885000. Running already for 512 seconds.  Present time: Wed Nov 27 16:13:51 2024
+>>> Event 886000. Running already for 513 seconds.  Present time: Wed Nov 27 16:13:52 2024
+>>> Event 887000. Running already for 513 seconds.  Present time: Wed Nov 27 16:13:52 2024
+>>> Event 888000. Running already for 514 seconds.  Present time: Wed Nov 27 16:13:53 2024
+>>> Event 889000. Running already for 514 seconds.  Present time: Wed Nov 27 16:13:53 2024
+>>> Event 890000. Running already for 515 seconds.  Present time: Wed Nov 27 16:13:54 2024
+>>> Event 891000. Running already for 515 seconds.  Present time: Wed Nov 27 16:13:54 2024
+>>> Event 892000. Running already for 516 seconds.  Present time: Wed Nov 27 16:13:55 2024
+>>> Event 893000. Running already for 516 seconds.  Present time: Wed Nov 27 16:13:55 2024
+>>> Event 894000. Running already for 517 seconds.  Present time: Wed Nov 27 16:13:56 2024
+>>> Event 895000. Running already for 517 seconds.  Present time: Wed Nov 27 16:13:56 2024
+>>> Event 896000. Running already for 518 seconds.  Present time: Wed Nov 27 16:13:57 2024
+>>> Event 897000. Running already for 518 seconds.  Present time: Wed Nov 27 16:13:57 2024
+>>> Event 898000. Running already for 519 seconds.  Present time: Wed Nov 27 16:13:58 2024
+>>> Event 899000. Running already for 519 seconds.  Present time: Wed Nov 27 16:13:58 2024
+>>> Event 900000. Running already for 520 seconds.  Present time: Wed Nov 27 16:13:59 2024
+>>> Event 901000. Running already for 520 seconds.  Present time: Wed Nov 27 16:13:59 2024
+>>> Event 902000. Running already for 521 seconds.  Present time: Wed Nov 27 16:14:00 2024
+>>> Event 903000. Running already for 521 seconds.  Present time: Wed Nov 27 16:14:00 2024
+>>> Event 904000. Running already for 522 seconds.  Present time: Wed Nov 27 16:14:01 2024
+>>> Event 905000. Running already for 523 seconds.  Present time: Wed Nov 27 16:14:02 2024
+>>> Event 906000. Running already for 523 seconds.  Present time: Wed Nov 27 16:14:02 2024
+>>> Event 907000. Running already for 524 seconds.  Present time: Wed Nov 27 16:14:03 2024
+>>> Event 908000. Running already for 524 seconds.  Present time: Wed Nov 27 16:14:03 2024
+>>> Event 909000. Running already for 526 seconds.  Present time: Wed Nov 27 16:14:05 2024
+>>> Event 910000. Running already for 527 seconds.  Present time: Wed Nov 27 16:14:06 2024
+>>> Event 911000. Running already for 527 seconds.  Present time: Wed Nov 27 16:14:06 2024
+>>> Event 912000. Running already for 528 seconds.  Present time: Wed Nov 27 16:14:07 2024
+>>> Event 913000. Running already for 528 seconds.  Present time: Wed Nov 27 16:14:07 2024
+>>> Event 914000. Running already for 529 seconds.  Present time: Wed Nov 27 16:14:08 2024
+>>> Event 915000. Running already for 529 seconds.  Present time: Wed Nov 27 16:14:08 2024
+>>> Event 916000. Running already for 530 seconds.  Present time: Wed Nov 27 16:14:09 2024
+>>> Event 917000. Running already for 530 seconds.  Present time: Wed Nov 27 16:14:09 2024
+>>> Event 918000. Running already for 531 seconds.  Present time: Wed Nov 27 16:14:10 2024
+>>> Event 919000. Running already for 531 seconds.  Present time: Wed Nov 27 16:14:10 2024
+!!!WARNING!!! musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "deuteron" deposited energy.  (First time occurrence)
+>>> Event 920000. Running already for 532 seconds.  Present time: Wed Nov 27 16:14:11 2024
+>>> Event 921000. Running already for 532 seconds.  Present time: Wed Nov 27 16:14:11 2024
+>>> Event 922000. Running already for 533 seconds.  Present time: Wed Nov 27 16:14:12 2024
+>>> Event 923000. Running already for 533 seconds.  Present time: Wed Nov 27 16:14:12 2024
+>>> Event 924000. Running already for 534 seconds.  Present time: Wed Nov 27 16:14:13 2024
+>>> Event 925000. Running already for 534 seconds.  Present time: Wed Nov 27 16:14:13 2024
+>>> Event 926000. Running already for 535 seconds.  Present time: Wed Nov 27 16:14:14 2024
+>>> Event 927000. Running already for 536 seconds.  Present time: Wed Nov 27 16:14:15 2024
+>>> Event 928000. Running already for 536 seconds.  Present time: Wed Nov 27 16:14:15 2024
+>>> Event 929000. Running already for 537 seconds.  Present time: Wed Nov 27 16:14:16 2024
+>>> Event 930000. Running already for 537 seconds.  Present time: Wed Nov 27 16:14:16 2024
+>>> Event 931000. Running already for 538 seconds.  Present time: Wed Nov 27 16:14:17 2024
+>>> Event 932000. Running already for 538 seconds.  Present time: Wed Nov 27 16:14:17 2024
+!!!WARNING!!! musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "C11" deposited energy.  (First time occurrence)
+>>> Event 933000. Running already for 539 seconds.  Present time: Wed Nov 27 16:14:18 2024
+>>> Event 934000. Running already for 539 seconds.  Present time: Wed Nov 27 16:14:18 2024
+>>> Event 935000. Running already for 541 seconds.  Present time: Wed Nov 27 16:14:20 2024
+>>> Event 936000. Running already for 542 seconds.  Present time: Wed Nov 27 16:14:21 2024
+>>> Event 937000. Running already for 542 seconds.  Present time: Wed Nov 27 16:14:21 2024
+>>> Event 938000. Running already for 543 seconds.  Present time: Wed Nov 27 16:14:22 2024
+>>> Event 939000. Running already for 543 seconds.  Present time: Wed Nov 27 16:14:22 2024
+>>> Event 940000. Running already for 544 seconds.  Present time: Wed Nov 27 16:14:23 2024
+>>> Event 941000. Running already for 544 seconds.  Present time: Wed Nov 27 16:14:23 2024
+>>> Event 942000. Running already for 545 seconds.  Present time: Wed Nov 27 16:14:24 2024
+>>> Event 943000. Running already for 545 seconds.  Present time: Wed Nov 27 16:14:24 2024
+>>> Event 944000. Running already for 546 seconds.  Present time: Wed Nov 27 16:14:25 2024
+>>> Event 945000. Running already for 546 seconds.  Present time: Wed Nov 27 16:14:25 2024
+>>> Event 946000. Running already for 547 seconds.  Present time: Wed Nov 27 16:14:26 2024
+>>> Event 947000. Running already for 547 seconds.  Present time: Wed Nov 27 16:14:26 2024
+>>> Event 948000. Running already for 548 seconds.  Present time: Wed Nov 27 16:14:27 2024
+>>> Event 949000. Running already for 548 seconds.  Present time: Wed Nov 27 16:14:27 2024
+>>> Event 950000. Running already for 549 seconds.  Present time: Wed Nov 27 16:14:28 2024
+>>> Event 951000. Running already for 550 seconds.  Present time: Wed Nov 27 16:14:29 2024
+>>> Event 952000. Running already for 550 seconds.  Present time: Wed Nov 27 16:14:29 2024
+>>> Event 953000. Running already for 551 seconds.  Present time: Wed Nov 27 16:14:30 2024
+>>> Event 954000. Running already for 551 seconds.  Present time: Wed Nov 27 16:14:30 2024
+>>> Event 955000. Running already for 552 seconds.  Present time: Wed Nov 27 16:14:31 2024
+>>> Event 956000. Running already for 552 seconds.  Present time: Wed Nov 27 16:14:31 2024
+>>> Event 957000. Running already for 553 seconds.  Present time: Wed Nov 27 16:14:32 2024
+>>> Event 958000. Running already for 553 seconds.  Present time: Wed Nov 27 16:14:32 2024
+>>> Event 959000. Running already for 554 seconds.  Present time: Wed Nov 27 16:14:33 2024
+>>> Event 960000. Running already for 554 seconds.  Present time: Wed Nov 27 16:14:33 2024
+>>> Event 961000. Running already for 556 seconds.  Present time: Wed Nov 27 16:14:35 2024
+>>> Event 962000. Running already for 557 seconds.  Present time: Wed Nov 27 16:14:36 2024
+>>> Event 963000. Running already for 557 seconds.  Present time: Wed Nov 27 16:14:36 2024
+>>> Event 964000. Running already for 558 seconds.  Present time: Wed Nov 27 16:14:37 2024
+>>> Event 965000. Running already for 558 seconds.  Present time: Wed Nov 27 16:14:37 2024
+>>> Event 966000. Running already for 559 seconds.  Present time: Wed Nov 27 16:14:38 2024
+>>> Event 967000. Running already for 559 seconds.  Present time: Wed Nov 27 16:14:38 2024
+>>> Event 968000. Running already for 560 seconds.  Present time: Wed Nov 27 16:14:39 2024
+>>> Event 969000. Running already for 560 seconds.  Present time: Wed Nov 27 16:14:39 2024
+>>> Event 970000. Running already for 561 seconds.  Present time: Wed Nov 27 16:14:40 2024
+>>> Event 971000. Running already for 561 seconds.  Present time: Wed Nov 27 16:14:40 2024
+>>> Event 972000. Running already for 562 seconds.  Present time: Wed Nov 27 16:14:41 2024
+>>> Event 973000. Running already for 562 seconds.  Present time: Wed Nov 27 16:14:41 2024
+>>> Event 974000. Running already for 563 seconds.  Present time: Wed Nov 27 16:14:42 2024
+>>> Event 975000. Running already for 563 seconds.  Present time: Wed Nov 27 16:14:42 2024
+>>> Event 976000. Running already for 564 seconds.  Present time: Wed Nov 27 16:14:43 2024
+>>> Event 977000. Running already for 565 seconds.  Present time: Wed Nov 27 16:14:44 2024
+>>> Event 978000. Running already for 565 seconds.  Present time: Wed Nov 27 16:14:44 2024
+>>> Event 979000. Running already for 566 seconds.  Present time: Wed Nov 27 16:14:45 2024
+>>> Event 980000. Running already for 566 seconds.  Present time: Wed Nov 27 16:14:45 2024
+>>> Event 981000. Running already for 567 seconds.  Present time: Wed Nov 27 16:14:46 2024
+>>> Event 982000. Running already for 567 seconds.  Present time: Wed Nov 27 16:14:46 2024
+>>> Event 983000. Running already for 568 seconds.  Present time: Wed Nov 27 16:14:47 2024
+>>> Event 984000. Running already for 568 seconds.  Present time: Wed Nov 27 16:14:47 2024
+>>> Event 985000. Running already for 569 seconds.  Present time: Wed Nov 27 16:14:48 2024
+>>> Event 986000. Running already for 569 seconds.  Present time: Wed Nov 27 16:14:48 2024
+>>> Event 987000. Running already for 571 seconds.  Present time: Wed Nov 27 16:14:50 2024
+>>> Event 988000. Running already for 572 seconds.  Present time: Wed Nov 27 16:14:51 2024
+>>> Event 989000. Running already for 572 seconds.  Present time: Wed Nov 27 16:14:51 2024
+>>> Event 990000. Running already for 573 seconds.  Present time: Wed Nov 27 16:14:52 2024
+>>> Event 991000. Running already for 573 seconds.  Present time: Wed Nov 27 16:14:52 2024
+>>> Event 992000. Running already for 574 seconds.  Present time: Wed Nov 27 16:14:53 2024
+>>> Event 993000. Running already for 574 seconds.  Present time: Wed Nov 27 16:14:53 2024
+>>> Event 994000. Running already for 575 seconds.  Present time: Wed Nov 27 16:14:54 2024
+>>> Event 995000. Running already for 575 seconds.  Present time: Wed Nov 27 16:14:54 2024
+>>> Event 996000. Running already for 576 seconds.  Present time: Wed Nov 27 16:14:55 2024
+>>> Event 997000. Running already for 577 seconds.  Present time: Wed Nov 27 16:14:56 2024
+>>> Event 998000. Running already for 577 seconds.  Present time: Wed Nov 27 16:14:56 2024
+>>> Event 999000. Running already for 578 seconds.  Present time: Wed Nov 27 16:14:57 2024
+musrRootOutput::EndOfRunAction() - Writing out the Root tree:
+musrRootOutput::EndOfRunAction() - Root tree written out.
+------   ERROR SUMMARY:  ----------------------------------------------------------------
+WARNING (60 times):musrRootOutput::ConvertProcessToID: No ID number assigned to the process "CoulombScat" .
+WARNING (1 times):musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "B11" deposited energy.
+WARNING (3 times):musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "Be8" deposited energy.
+WARNING (1 times):musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "C11" deposited energy.
+WARNING (25 times):musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "C12" deposited energy.
+WARNING (17 times):musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "alpha" deposited energy.
+WARNING (10 times):musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "deuteron" deposited energy.
+WARNING (82 times):musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "neutron" deposited energy.
+WARNING (21 times):musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "pi+" deposited energy.
+WARNING (2 times):musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "pi-" deposited energy.
+WARNING (148 times):musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "proton" deposited energy.
+WARNING (3 times):musrScintSD.cc::EndOfEvent(): UNTREATED PARTICLE "triton" deposited energy.
+WARNING (36 times):musrScintSD.cc::EndOfEvent(): number of signals exceeds maximal allowed value.
+-----------------------------------------------------------------------------------------
+musrRunAction::EndOfRunAction:
+    Number of events    = 1000000
+    User elapsed time   = 0.159308h   = 9.5585min   = 573.51s.
+    Real elapsed time   = 0.16085h   = 9.651min   = 579.06s.
+    System elapsed time = 0.000936111h   = 0.0561667min   = 3.37s.
+0 events have been kept for refreshing and/or reviewing.
+  "/vis/reviewKeptEvents" to review them one by one.
+  "/vis/enable", then "/vis/viewer/flush" or "/vis/viewer/rebuild" to see them accumulated.
+Graphics systems deleted.
+Visualization Manager deleting...
+musrPrimaryGeneratorAction:   Number of Generated Events = 1000000

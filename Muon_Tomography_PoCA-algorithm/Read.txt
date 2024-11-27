@@ -1,0 +1,50 @@
+***************
+### This file is the manual of muon scattering tomography of objects that uses musrSim to do simulation.
+And PoCA algorithm is used to analyze the track information and get the imaging results.
+
+The simulation and analysis used the SJTU/INPAC cluster.
+For another server cluster, it needs to modify it.
+###
+
+###
+The software used in simulation and analysis:
+
+Geant4 version: 10.7.2
+ROOT Version: 6.24/06
+Python 3.9.6
+###
+
+
+
+***************
+The files are divided into 2 parts: (1) tomography simulation and (2) imaging analysis.
+
+###
+(1) Tomography simulation:
+Purpose: To get muon position information and momentum information after muon tomography; 
+
+"TDLI_Imaging.mac": An example script for object design used in "musrSim";
+
+"run-scan.sh": The command script that uses executable file to do simulation and use analysis file to store useful information.
+
+"Submit.condor": Submit the command to INPAC cluster;
+
+#"visVRML.mac": The file for visualization of imaging object and detector;
+
+"particleTreeAna/ana": The analysis file;
+
+"logs": To record simulation process;
+
+"data": The folder for simulation results and analysis results;
+
+
+(2) imaging analysis:
+Purpose: To show the imaging results by using PoCA algorithm;
+Python version;
+
+"Analysis":
+
+PoCA_Algorithm: The self-defined functions for imaging using PoCA algorithm;
+
+Imaging-Results: The file that shows the imaging results using PoCA algorithm;
+###

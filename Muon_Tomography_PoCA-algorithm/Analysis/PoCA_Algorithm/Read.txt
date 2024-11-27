@@ -1,0 +1,10 @@
+#   Image Reconstruction using PoCA
+
+#   This is the script for reconstrucing target material image using PoCA algorithm
+#==========================================================================
+
+#'Functions' used in the "Imaging" script
+#1. POCA.py              # To find the PoCA points. 
+#2. IOAngle.py           # To compute scattering angles using the tracks position.
+#3. Voxel.py                # To achieve voxelization and get angle information and scattering density in each voxel.
+#==========================================================================
